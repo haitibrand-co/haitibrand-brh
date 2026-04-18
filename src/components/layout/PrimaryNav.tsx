@@ -77,11 +77,11 @@ export function PrimaryNav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =
           <span className="text-[12.5px] truncate flex-1 font-medium">BRH-WP-2026-01.pdf</span>
         </div>
         <div className="grid grid-cols-2 gap-2 mt-2">
-          <button className="border border-edge rounded-[10px] px-2 py-2 text-[12.5px] text-ink-2 hover:bg-hover transition flex items-center justify-center gap-1.5 whitespace-nowrap">
+          <button onClick={() => navigator.clipboard?.writeText(paper.brhUrl)} className="border border-edge rounded-[10px] px-2 py-2 text-[12.5px] text-ink-2 hover:bg-hover transition flex items-center justify-center gap-1.5 whitespace-nowrap">
             <i className="ph ph-copy text-[18px]" />
             {lang === 'fr' ? 'Copier' : 'Kopi'}
           </button>
-          <a href={paper.pdfUrl} target="_blank" className="border border-edge rounded-[10px] px-2 py-2 text-[12.5px] text-ink-2 hover:bg-hover transition flex items-center justify-center gap-1.5 whitespace-nowrap">
+          <a href={paper.brhUrl} target="_blank" rel="noopener noreferrer" className="border border-edge rounded-[10px] px-2 py-2 text-[12.5px] text-ink-2 hover:bg-hover transition flex items-center justify-center gap-1.5 whitespace-nowrap">
             <i className="ph ph-arrow-square-out text-[18px]" />
             {lang === 'fr' ? 'Ouvrir' : 'Louvri'}
           </a>

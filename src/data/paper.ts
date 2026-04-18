@@ -12,7 +12,8 @@ export const paper = {
   affiliation: 'Direction de la Recherche Économique et Financière (DREF), Banque de la République d\'Haïti (BRH)',
   date: 'Mars 2026',
   jel: ['E31', 'E52', 'E58', 'F31', 'O54'],
-  pdfUrl: '/paper.pdf',
+  pdfUrl: '/paper.pdf',  // bundled local copy, served with Content-Disposition below
+  brhUrl: 'https://www.brh.ht/wp-content/uploads/DREF_wp_dynamique_des_prix_24-mars-2026-1.pdf',
   sources: [
     { key: 'IHSI', label: 'IHSI · IPC', detail: '156 catégories · Oct 1998 – Août 2024 · 310 obs' },
     { key: 'BRH',  label: 'BRH · Macro', detail: '16 variables · Sept 2014 – Déc 2025 · 136 obs' },

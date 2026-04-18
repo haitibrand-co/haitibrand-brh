@@ -22,7 +22,7 @@ export function ContentShell({
           </div>
           <div className="flex-1" />
           <SearchBox lang={lang} onNavigate={onNavigate} />
-          <a href={paper.pdfUrl} target="_blank"
+          <a href={paper.pdfUrl} download="BRH-WP-2026-01.pdf"
              className="inline-flex items-center gap-2 px-4 py-2 rounded-[10px] bg-ink text-white text-[13.5px] font-medium hover:bg-blue-900 transition whitespace-nowrap">
             <i className="ph ph-download-simple text-[16px]" />
             <span className="hidden sm:inline">{L(t.nav.download, lang)}</span>
