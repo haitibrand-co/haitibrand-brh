@@ -91,32 +91,32 @@ export function StatCard({
 }
 
 /** Stat strip (Pipesale) — 5 KPIs inline with soft dividers */
-export function StatStrip({ items }: { items: { label: string; whole: string; fraction?: string; unit?: string; delta?: string; tip?: string; compare?: string; iconColor?: string; icon?: string }[] }) {
+export function StatStrip({ items }: { items: { label: string; whole: string; fraction?: string; unit?: string; delta?: string; tip?: string; compare?: string; iconColor?: string; icon?: string; deltaTone?: 'neutral' | 'positive' | 'negative'; deltaIcon?: string }[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
       {items.map((it, i) => {
         const dot = it.iconColor ?? '#1D4ED8';
         const icon = it.icon ?? 'ph-trend-up';
+        const tone = it.deltaTone ?? 'neutral';
+        const toneClass = tone === 'positive' ? 'text-positive' : tone === 'negative' ? 'text-negative' : 'text-ink-2';
+        const dIcon = it.deltaIcon ?? (tone === 'positive' ? 'ph-trend-up' : tone === 'negative' ? 'ph-trend-up' : 'ph-arrow-right');
         return (
           <div key={i} className="bg-card rounded-[16px] border border-edge px-5 py-4 min-w-0 flex flex-col gap-3">
-            {/* Title */}
             <div className="text-[14px] font-medium text-ink leading-tight">{it.label}</div>
-            {/* Icon + number + unit — baseline aligned */}
-            <div className="flex items-center gap-2.5">
-              <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: dot }}>
+            <div className="flex items-start gap-2.5 min-w-0">
+              <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: dot }}>
                 <i className={`ph-bold ${icon} text-[13px] text-white`} />
               </span>
-              <div className="flex items-baseline gap-1.5 tabular-nums min-w-0">
+              <div className="flex flex-col gap-0.5 tabular-nums min-w-0 flex-1">
                 <span className="text-[22px] font-semibold text-ink leading-none whitespace-nowrap">{it.whole}{it.fraction && <span>,{it.fraction}</span>}</span>
-                {it.unit && <span className="text-[14px] text-ink-2 font-normal leading-none">{it.unit}</span>}
+                {it.unit && <span className="text-[13px] text-ink-2 font-normal leading-snug break-words">{it.unit}</span>}
               </div>
             </div>
-            {/* Compare + delta */}
             <div className="flex items-center justify-between text-[12px] text-ink-2 mt-auto">
               <span>{it.compare ?? ''}</span>
               {it.delta && (
-                <span className="inline-flex items-center gap-1 font-medium tabular-nums text-positive">
-                  <i className="ph-bold ph-trend-up text-[13px]" />
+                <span className={`inline-flex items-center gap-1 font-medium tabular-nums ${toneClass}`}>
+                  <i className={`ph-bold ${dIcon} text-[13px]`} />
                   {it.delta}
                 </span>
               )}

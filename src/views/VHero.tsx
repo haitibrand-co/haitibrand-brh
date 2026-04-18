@@ -12,20 +12,21 @@ export function VHero({ lang }: { lang: Lang }) {
       {/* Stat strip — each KPI its own card */}
       <StatStrip
         items={v.kpi.map((k, i) => {
-          const extras = [
+          const extras: Array<{ compare: string; icon: string; iconColor: string; deltaTone?: 'neutral' | 'positive' | 'negative' }> = [
             { compare: lang === 'fr' ? '1998 → 2018'   : '1998 → 2018',   icon: 'ph-trend-up',     iconColor: '#93C5FD' },
-            { compare: lang === 'fr' ? 'post-2018'     : 'pòs-2018',      icon: 'ph-trend-up',     iconColor: '#1D4ED8' },
+            { compare: lang === 'fr' ? 'post-2018'     : 'pòs-2018',      icon: 'ph-trend-up',     iconColor: '#DC2626', deltaTone: 'negative' },
             { compare: lang === 'fr' ? 'sept. 2024'    : 'sept. 2024',    icon: 'ph-flame',        iconColor: '#DC2626' },
             { compare: lang === 'fr' ? 'depuis 2018'   : 'depi 2018',     icon: 'ph-clock-countdown', iconColor: '#64748B' },
             { compare: lang === 'fr' ? '2014 → 2025'   : '2014 → 2025',   icon: 'ph-lightning',    iconColor: '#1D4ED8' },
-          ][i] ?? {};
+          ];
+          const extra = extras[i] ?? { compare: '', icon: 'ph-trend-up', iconColor: '#1D4ED8' };
           return {
             label: L(k.label, lang),
             whole: k.value.split(',')[0],
             fraction: k.value.includes(',') ? k.value.split(',')[1] : undefined,
             unit: typeof k.unit === 'string' ? k.unit : L(k.unit, lang),
             delta: (k as any).delta,
-            ...extras,
+            ...extra,
           };
         })}
       />
