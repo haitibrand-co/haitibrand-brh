@@ -3,11 +3,10 @@ import { paper } from '../../data/paper';
 import type { Lang } from '../../data/i18n';
 import { L, t } from '../../data/i18n';
 import { ChipDashed } from '../ui/primitives';
-import { SearchBox } from './SearchBox';
 
 export function ContentShell({
-  lang, activeLabel, kicker, title, synopsis, children, onNavigate,
-}: { lang: Lang; activeLabel: string; kicker?: string; title: string; synopsis?: string; children: ReactNode; onNavigate: (id: string) => void }) {
+  lang, activeLabel, kicker, title, synopsis, children,
+}: { lang: Lang; activeLabel: string; kicker?: string; title: string; synopsis?: string; children: ReactNode; onNavigate?: (id: string) => void }) {
   return (
     <main className="flex-1 overflow-y-auto scroll-thin bg-page min-w-0">
       {/* Sticky top header */}
@@ -22,7 +21,6 @@ export function ContentShell({
             <span className="text-ink font-medium truncate">{activeLabel}</span>
           </div>
           <div className="flex-1" />
-          <SearchBox lang={lang} onNavigate={onNavigate} />
           <a href={paper.pdfUrl} download="BRH-WP-2026-01.pdf"
              className="inline-flex items-center gap-2 px-4 py-2 rounded-[10px] bg-ink text-white text-[13.5px] font-medium hover:bg-blue-900 transition whitespace-nowrap">
             <i className="ph ph-download-simple text-[16px]" />
