@@ -45,7 +45,7 @@ export function ContentShell({
 
       <div className="px-5 md:px-8 py-6 pb-[calc(env(safe-area-inset-bottom,0px)+96px)] sm:pb-24">
         {synopsis && (
-          <div className="mb-6 px-4 py-3 rounded-[12px] bg-rail text-[13.5px] text-ink-2 leading-relaxed">
+          <div className="mb-6 px-4 py-3 rounded-[12px] bg-blue-700 text-[13.5px] text-white leading-relaxed">
             {synopsis}
           </div>
         )}
