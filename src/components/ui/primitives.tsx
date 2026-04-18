@@ -91,19 +91,39 @@ export function StatCard({
 }
 
 /** Stat strip (Pipesale) — 5 KPIs inline with soft dividers */
-export function StatStrip({ items }: { items: { label: string; whole: string; fraction?: string; unit?: string; delta?: string; tip?: string }[] }) {
+export function StatStrip({ items }: { items: { label: string; whole: string; fraction?: string; unit?: string; delta?: string; tip?: string; compare?: string; iconColor?: string; icon?: string }[] }) {
   return (
-    <div className="bg-card rounded-[16px] border border-edge p-4 md:px-6 md:py-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-y-5">
-      {items.map((it, i) => (
-        <div key={i} className={`px-3 md:px-4 ${i > 0 ? 'lg:border-l border-edge' : ''} ${i > 0 && i % 3 !== 0 ? 'sm:border-l' : ''}`}>
-          <div className="text-[12px] md:text-[13px] text-ink-2 mb-2 flex items-center gap-1.5 leading-tight">
-            {it.label}
-            {it.tip && <InfoIcon tip={it.tip} />}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+      {items.map((it, i) => {
+        const dot = it.iconColor ?? '#1D4ED8';
+        const icon = it.icon ?? 'ph-trend-up';
+        return (
+          <div key={i} className="bg-card rounded-[16px] border border-edge px-5 py-4 min-w-0 flex flex-col gap-3">
+            {/* Title */}
+            <div className="text-[14px] font-medium text-ink leading-tight">{it.label}</div>
+            {/* Icon + number + unit — baseline aligned */}
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: dot }}>
+                <i className={`ph-bold ${icon} text-[13px] text-white`} />
+              </span>
+              <div className="flex items-baseline gap-1.5 tabular-nums min-w-0">
+                <span className="text-[22px] font-semibold text-ink leading-none whitespace-nowrap">{it.whole}{it.fraction && <span>,{it.fraction}</span>}</span>
+                {it.unit && <span className="text-[14px] text-ink-2 font-normal leading-none">{it.unit}</span>}
+              </div>
+            </div>
+            {/* Compare + delta */}
+            <div className="flex items-center justify-between text-[12px] text-ink-2 mt-auto">
+              <span>{it.compare ?? ''}</span>
+              {it.delta && (
+                <span className="inline-flex items-center gap-1 font-medium tabular-nums text-positive">
+                  <i className="ph-bold ph-trend-up text-[13px]" />
+                  {it.delta}
+                </span>
+              )}
+            </div>
           </div>
-          <NumberDiminuendo whole={it.whole} fraction={it.fraction} unit={it.unit} size="lg" />
-          {it.delta && <div className="mt-1.5"><DeltaChip value={it.delta} direction="up" /></div>}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -332,6 +352,94 @@ export function DarkTooltip({ payload, label, formatter }: { payload: any[]; lab
 /** Ratio label — shows "×13" or "2:1" above a paired bar */
 export function RatioLabel({ children }: { children: React.ReactNode }) {
   return <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[11px] font-medium tabular-nums">{children}</span>;
+}
+
+/**
+ * StatHeaderCard — "Acme-style" card primitive.
+ * Big display number + colored unit on the left,
+ * contextual meta right-aligned (e.g. "Last incident · 3h ago"),
+ * thin divider, then a focused visual body.
+ */
+export function StatHeaderCard({
+  label, value, unit, meta, children, className = '',
+}: {
+  label: string;
+  value: string;
+  unit?: string;
+  meta?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={`bg-card rounded-[20px] border border-edge p-6 sm:p-7 ${className}`}>
+      <div className="flex items-start justify-between gap-4 mb-5">
+        <div className="min-w-0 flex-1">
+          <div className="text-[13.5px] text-ink-2 mb-2 leading-tight">{label}</div>
+          <div className="flex items-baseline gap-1.5 tabular-nums flex-wrap">
+            <span className="text-[34px] sm:text-[38px] font-medium text-ink leading-none whitespace-nowrap">{value}</span>
+            {unit && <span className="text-[13.5px] text-ink-2 font-normal leading-tight">{unit}</span>}
+          </div>
+        </div>
+        {meta && <div className="text-[14px] font-normal text-ink-2 text-right shrink-0 pt-1 leading-tight max-w-[40%]">{meta}</div>}
+      </div>
+      <div className="-mx-6 sm:-mx-7 border-t border-edge" />
+      <div className="pt-5">{children}</div>
+    </section>
+  );
+}
+
+/** Inline dot legend row — "● label  ● label" */
+export function DotLegend({ items }: { items: { label: string; color: string }[] }) {
+  return (
+    <div className="flex items-center gap-5 text-[12.5px] text-ink-2 flex-wrap">
+      {items.map((it, i) => (
+        <span key={i} className="inline-flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full" style={{ background: it.color }} />
+          {it.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/** Horizontal progress bar with label left, % right — System-Status-style row */
+export function ProgressRow({ label, pct, color = '#1D4ED8', track = '#DBE1E8' }: { label: string; pct: number; color?: string; track?: string }) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-2">
+        <span className="text-[13.5px] text-ink font-medium">{label}</span>
+        <span className="text-[13.5px] text-ink-2 tabular-nums">{pct.toFixed(2).replace('.', ',')}%</span>
+      </div>
+      <div className="h-3 rounded-full overflow-hidden" style={{ background: track }}>
+        <div className="h-full rounded-full transition-[width]" style={{ width: `${pct}%`, background: color }} />
+      </div>
+    </div>
+  );
+}
+
+/** Two-segment stacked horizontal pill bar — Active-Automations-style */
+export function SplitPillBar({ left, right, label }: {
+  left: { value: number; color: string; label: string };
+  right: { value: number; color: string; label: string };
+  label?: string;
+}) {
+  const total = left.value + right.value;
+  const lpct = (left.value / total) * 100;
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-4 mb-3 text-[12.5px] text-ink-2 flex-wrap">
+        <div className="flex items-center gap-5 flex-wrap">
+          <span className="inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full" style={{ background: left.color }} />{left.label}</span>
+          <span className="inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full" style={{ background: right.color }} />{right.label}</span>
+        </div>
+        {label && <span className="tabular-nums text-ink-2">{label}</span>}
+      </div>
+      <div className="flex h-3 rounded-full overflow-hidden gap-1">
+        <div className="h-full rounded-full" style={{ width: `${lpct}%`, background: left.color }} />
+        <div className="h-full rounded-full flex-1" style={{ background: right.color }} />
+      </div>
+    </div>
+  );
 }
 
 /** Section card wrapper */

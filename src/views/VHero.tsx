@@ -1,6 +1,6 @@
 import type { Lang } from '../data/i18n';
 import { L, t } from '../data/i18n';
-import { Card, StatStrip, TickComb, StripedBarCard } from '../components/ui/primitives';
+import { Card, StatStrip, TickComb, StripedBarCard, StatHeaderCard } from '../components/ui/primitives';
 import { RegimeChart } from '../components/charts/RegimeChart';
 import { SlopeCompare } from '../components/charts/SlopeCompare';
 import { CandleLine, CandleLineLegend } from '../components/charts/CandleLine';
@@ -9,76 +9,87 @@ export function VHero({ lang }: { lang: Lang }) {
   const v = t.v.hero;
   return (
     <div className="space-y-8">
-      {/* Stat strip */}
+      {/* Stat strip — each KPI its own card */}
       <StatStrip
-        items={v.kpi.map(k => ({
-          label: L(k.label, lang),
-          whole: k.value.split(',')[0],
-          fraction: k.value.includes(',') ? k.value.split(',')[1] : undefined,
-          unit: typeof k.unit === 'string' ? k.unit : L(k.unit, lang),
-          delta: (k as any).delta,
-        }))}
+        items={v.kpi.map((k, i) => {
+          const extras = [
+            { compare: lang === 'fr' ? '1998 → 2018'   : '1998 → 2018',   icon: 'ph-trend-up',     iconColor: '#93C5FD' },
+            { compare: lang === 'fr' ? 'post-2018'     : 'pòs-2018',      icon: 'ph-trend-up',     iconColor: '#1D4ED8' },
+            { compare: lang === 'fr' ? 'sept. 2024'    : 'sept. 2024',    icon: 'ph-flame',        iconColor: '#DC2626' },
+            { compare: lang === 'fr' ? 'depuis 2018'   : 'depi 2018',     icon: 'ph-clock-countdown', iconColor: '#64748B' },
+            { compare: lang === 'fr' ? '2014 → 2025'   : '2014 → 2025',   icon: 'ph-lightning',    iconColor: '#1D4ED8' },
+          ][i] ?? {};
+          return {
+            label: L(k.label, lang),
+            whole: k.value.split(',')[0],
+            fraction: k.value.includes(',') ? k.value.split(',')[1] : undefined,
+            unit: typeof k.unit === 'string' ? k.unit : L(k.unit, lang),
+            delta: (k as any).delta,
+            ...extras,
+          };
+        })}
       />
 
-      {/* Main chart + slope compare (2/3 + 1/3 bento) */}
+      {/* Regime + slope compare (2/3 + 1/3 bento) */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
-        <Card className="md:col-span-2" title={L(v.chartTitle, lang)} subtitle={L(v.chartSub, lang)}
-              right={
-                <div className="flex items-center gap-3 text-[12px] text-ink-2">
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-300" />Pré-2018</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-700" />Post-2018</span>
-                </div>
-              }>
+        <StatHeaderCard className="md:col-span-2"
+          label={L(v.chartTitle, lang)}
+          value="×3,5"
+          unit={lang === 'fr' ? 'écart · réel vs projeté' : 'ekat · reyèl vs pwojete'}
+          meta={lang === 'fr' ? 'Rupture · juil. 2018' : 'Kraze · jiyè 2018'}
+        >
           <RegimeChart height={320} />
-        </Card>
+        </StatHeaderCard>
 
-        <Card title={L(v.comparisonTitle, lang)} subtitle={lang === 'fr' ? 'Pente annuelle de l\'IPC' : 'Pant anyèl IPC'}>
-          <div className="h-[280px]">
+        <StatHeaderCard
+          label={L(v.comparisonTitle, lang)}
+          value="×13"
+          unit={lang === 'fr' ? 'pente post vs pré-2018' : 'pant pòs vs pre-2018'}
+          meta={lang === 'fr' ? '3,2 → 42 pts/an' : '3,2 → 42 pts/an'}
+        >
+          <div className="h-[260px]">
             <SlopeCompare />
           </div>
-        </Card>
+        </StatHeaderCard>
       </div>
 
-      {/* Candle-over-line monthly inflation (Pipesale pattern) */}
-      <Card
-        title={lang === 'fr' ? 'Inflation mensuelle, candles et tendance' : 'Inflasyon chak mwa, candles ak tandans'}
-        subtitle={lang === 'fr' ? 'Moy. mensuelle 1,58 % · Écart-type 1,33 · Pic 10,99 % (Sept. 2021)' : 'Mwayèn chak mwa 1,58 % · Ekat tip 1,33 · Pi wo 10,99 % (Sept. 2021)'}
-        right={<CandleLineLegend />}
+      {/* Monthly inflation — candles + trend */}
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Inflation mensuelle' : 'Inflasyon chak mwa'}
+        value="1,58%"
+        unit={lang === 'fr' ? 'moy. · σ = 1,33' : 'mwayèn · σ = 1,33'}
+        meta={lang === 'fr' ? 'Pic · 10,99% · Sept. 2021' : 'Pik · 10,99% · Sept. 2021'}
       >
+        <div className="mb-3"><CandleLineLegend /></div>
         <CandleLine height={260} />
-      </Card>
+      </StatHeaderCard>
 
-      {/* Order Breakdown horizontal striped bars (Acme pattern) */}
+      {/* Composition du choc + multiplicateur */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
-        <Card className="md:col-span-2" title={lang === 'fr' ? 'Composition du choc — effet cumulatif à 24 mois' : 'Konpozisyon chòk la — efè kimile nan 24 mwa'}
-              subtitle={lang === 'fr' ? 'Trois canaux narratifs, IPC agrégé' : 'Twa kanal naratif, IPC agregat'}>
+        <StatHeaderCard className="md:col-span-2"
+          label={lang === 'fr' ? 'Composition du choc — effet cumulatif à 24 mois' : 'Konpozisyon chòk la — efè kimile nan 24 mwa'}
+          value="+4,93%"
+          unit={lang === 'fr' ? 'instabilité politique · t=1,94' : 'enstabilite politik · t=1,94'}
+          meta={lang === 'fr' ? '3 canaux narratifs · IPC agrégé' : '3 kanal naratif · IPC agregat'}
+        >
           <StripedBarCard items={[
             { label: 'Instabilité politique', value: '+4,93%', sub: 'h=24 · t=1,94 · significatif', tone: 'blue' },
             { label: 'Choc fiscal',           value: '+1,42%', sub: 'h=21 · t=1,02 · non significatif', tone: 'pink' },
             { label: 'Marché du travail',     value: '+0,90%', sub: 'h=15 · t=0,84 · non significatif', tone: 'green' },
           ]} />
-        </Card>
+        </StatHeaderCard>
 
-        <Card title={lang === 'fr' ? 'Taux de réplication' : 'To repetisyon'} subtitle={lang === 'fr' ? 'Persistance ρ̂ = 0,536' : 'Pèsistans ρ̂ = 0,536'} className="flex flex-col">
-          {/* Middle — big number, locked left */}
-          <div className="flex-1 flex flex-col justify-center py-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-[48px] font-medium tabular-nums text-ink leading-none">2,15</span>
-              <span className="text-[13px] text-ink-2">× multiplicateur</span>
-            </div>
-            <div className="text-[12.5px] text-positive inline-flex items-start gap-1.5 mt-3 leading-[1.4] max-w-[240px] font-medium">
-              <i className="ph-bold ph-arrow-up text-[13px] mt-[2px] shrink-0" />
-              <span>6,4% vs scénario sans persistance</span>
-            </div>
+        <StatHeaderCard
+          label={lang === 'fr' ? 'Taux de réplication' : 'To repetisyon'}
+          value="2,15"
+          unit={lang === 'fr' ? '× multiplicateur' : '× miltiplikatè'}
+          meta={lang === 'fr' ? 'ρ̂ = 0,536' : 'ρ̂ = 0,536'}
+        >
+          <TickComb count={30} activePct={70} />
+          <div className="mt-3 text-[12.5px] text-ink-2">
+            {lang === 'fr' ? 'Fraction long terme capturée' : 'Fraksyon long tèm kaptire'}
           </div>
-          {/* Bottom — tick comb + caption, fit snug at card bottom */}
-          <div className="mt-8 pt-6 border-t border-edge">
-            <TickComb count={30} activePct={70} />
-            <div className="mt-3 text-[12.5px] text-ink-2">
-              {lang === 'fr' ? 'Fraction long terme capturée' : 'Fraksyon long tèm kaptire'}
-            </div>
-          </div>
-        </Card>
+        </StatHeaderCard>
       </div>
 
       {/* Bullets card (Ce que dit le papier) + quote */}

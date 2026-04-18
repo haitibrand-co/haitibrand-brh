@@ -1,8 +1,8 @@
 import type { Lang } from '../data/i18n';
 import { L, t } from '../data/i18n';
-import { Card, SigPill, TickComb, StatCard, CheckBadge } from '../components/ui/primitives';
+import { Card, SigPill, TickComb, CheckBadge, StatHeaderCard, ProgressRow, SplitPillBar, DotLegend } from '../components/ui/primitives';
 import { KernelRidges } from '../components/charts/KernelRidges';
-import { JobPawAnnual, StackedSectoralBar, HBarBreakdown, jobpawDomains } from '../components/charts/JobPawCharts';
+import { JobPawAnnual, HBarBreakdown, jobpawDomains } from '../components/charts/JobPawCharts';
 import { RegimeChart } from '../components/charts/RegimeChart';
 import { ipcDistribution, politicalShocks, descriptive, paper, irfPeaks } from '../data/paper';
 import { irfAggregate, irfTradable, irfNonTradable } from '../data/series';
@@ -51,11 +51,21 @@ export function VRupture({ lang }: { lang: Lang }) {
   const v = t.v.rupture;
   return (
     <div className="space-y-8">
-      <Card title={lang === 'fr' ? 'Rupture structurelle de l\'IPC' : 'Chanjman estriktirèl IPC'} subtitle={L(v.kicker, lang)}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Rupture structurelle de l\'IPC' : 'Chanjman estriktirèl IPC'}
+        value="×3,5"
+        unit={lang === 'fr' ? 'écart · réel vs projeté' : 'ekat · reyèl vs pwojete'}
+        meta={lang === 'fr' ? 'Rupture · juil. 2018' : 'Kraze · jiyè 2018'}
+      >
         <RegimeChart height={280} />
-      </Card>
+      </StatHeaderCard>
 
-      <Card title={L(v.timelineTitle, lang)} subtitle={lang === 'fr' ? 'Intensité codée 0–2 · 75 mois sur 136 enregistrent un choc positif' : 'Entansite kode 0–2 · 75 mwa sou 136 anrejistre yon chòk pozitif'}>
+      <StatHeaderCard
+        label={L(v.timelineTitle, lang)}
+        value="75"
+        unit={lang === 'fr' ? 'mois de choc / 136' : 'mwa chòk / 136'}
+        meta={lang === 'fr' ? 'Intensité codée 0–2' : 'Entansite kode 0–2'}
+      >
         {/* Mobile: vertical list with dot rail */}
         <div className="sm:hidden relative pl-6">
           <div className="absolute left-[7px] top-1 bottom-1 w-px bg-edge-strong" />
@@ -95,26 +105,25 @@ export function VRupture({ lang }: { lang: Lang }) {
           <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-300" /><strong className="text-ink font-medium tabular-nums">s = 1,5–1,8</strong> élevée</span>
           <span className="basis-full sm:basis-auto sm:ml-auto">Codage narratif · Cerra &amp; Saxena (2008), Stock &amp; Watson (2018)</span>
         </div>
-      </Card>
+      </StatHeaderCard>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
         {ipcDistribution.filter(d => [1998, 2018, 2023].includes(d.year)).map((d, i) => {
-          // Pre-2018 baseline = 1998 mean; post = current
           const base = ipcDistribution[0].mean;
           const multiple = (d.mean / base);
           const prev = i > 0 ? ipcDistribution.filter(x => [1998, 2018, 2023].includes(x.year))[i-1].mean : null;
           return (
-            <Card key={i} title={`${d.year}`} subtitle={lang === 'fr' ? `IPC moyen · 156 catégories` : `IPC mwayèn · 156 kategori`}>
-              <div className="text-[36px] font-medium tabular-nums text-ink leading-none">{d.mean}</div>
-              <div className="flex items-center gap-2 mt-2 text-[12px]">
-                <span className="text-ink-2">Maximum <strong className="text-ink font-medium tabular-nums ml-1">{d.max}</strong></span>
-                {prev && (
-                  <span className="text-blue-700 font-medium tabular-nums">· ×{(d.mean / prev).toFixed(1)} vs {ipcDistribution.filter(x => [1998, 2018, 2023].includes(x.year))[i-1].year}</span>
-                )}
-              </div>
-              <div className="mt-4"><TickComb count={24} activePct={(d.mean / 330) * 100} /></div>
-              <div className="mt-2 text-[12px] text-ink-2">Dispersion <strong className="text-ink font-medium">{d.spread}</strong>{i === 0 ? '' : ` · ×${multiple.toFixed(1)} vs 1998`}</div>
-            </Card>
+            <StatHeaderCard
+              key={i}
+              label={`${d.year} · IPC moyen`}
+              value={String(d.mean)}
+              unit={lang === 'fr' ? '156 catégories' : '156 kategori'}
+              meta={prev ? `×${(d.mean / prev).toFixed(1)} vs ${ipcDistribution.filter(x => [1998, 2018, 2023].includes(x.year))[i-1].year}` : (lang === 'fr' ? 'Baseline' : 'Referans')}
+            >
+              <div className="text-[12px] text-ink-2 mb-2">Maximum <strong className="text-ink font-medium tabular-nums">{d.max}</strong></div>
+              <TickComb count={24} activePct={(d.mean / 330) * 100} />
+              <div className="mt-3 text-[12px] text-ink-2">Dispersion <strong className="text-ink font-medium">{d.spread}</strong>{i === 0 ? '' : ` · ×${multiple.toFixed(1)} vs 1998`}</div>
+            </StatHeaderCard>
           );
         })}
       </div>
@@ -127,12 +136,22 @@ export function VDistribution({ lang }: { lang: Lang }) {
   const v = t.v.distribution;
   return (
     <div className="space-y-8">
-      <Card title={lang === 'fr' ? 'Distribution de l\'IPC par catégorie' : 'Distribisyon IPC pa kategori'} subtitle={L(v.kicker, lang)}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Distribution de l\'IPC par catégorie' : 'Distribisyon IPC pa kategori'}
+        value="156"
+        unit={lang === 'fr' ? 'catégories · 1998–2023' : 'kategori · 1998–2023'}
+        meta={lang === 'fr' ? 'Queue droite épaisse · max 693' : 'Ke dwat epè · maks 693'}
+      >
         <KernelRidges />
-      </Card>
+      </StatHeaderCard>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
-        <Card title={L(v.compareTitle, lang)} subtitle={lang === 'fr' ? '25 ans · 156 catégories' : '25 ane · 156 kategori'} className="md:col-span-2">
+        <StatHeaderCard className="md:col-span-2"
+          label={L(v.compareTitle, lang)}
+          value="×20"
+          unit={lang === 'fr' ? 'moyenne IPC · 1998 → 2023' : 'mwayèn IPC · 1998 → 2023'}
+          meta={lang === 'fr' ? '25 ans · 156 catégories' : '25 ane · 156 kategori'}
+        >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { label: 'Moyenne IPC',   before: '16,3',   after: '326',       mult: '×20' },
@@ -155,9 +174,14 @@ export function VDistribution({ lang }: { lang: Lang }) {
               ? 'La distribution passe d\'une forme serrée autour de 112 points à une forme très étalée (moyenne 326, max 693). La queue droite épaisse traduit l\'existence de catégories dont les prix ont explosé.'
               : 'Distribisyon an pase de yon fòm sere otou 112 pwen a yon fòm trè etale (mwayèn 326, maks 693). Ke dwat epè a montre kategori kote pri yo te eksploze.'}
           </p>
-        </Card>
+        </StatHeaderCard>
 
-        <Card title={lang === 'fr' ? 'Catégories extrêmes' : 'Kategori ekstrèm'} subtitle={lang === 'fr' ? 'Croissance IPC 2018 → 2023 · top 5 / fond 5' : 'Kwasans IPC 2018 → 2023 · top 5 / fon 5'}>
+        <StatHeaderCard
+          label={lang === 'fr' ? 'Catégories extrêmes' : 'Kategori ekstrèm'}
+          value="×6,2"
+          unit={lang === 'fr' ? 'Carburants · top croissance' : 'Gaz · pi gwo kwasans'}
+          meta={lang === 'fr' ? '2018 → 2023' : '2018 → 2023'}
+        >
           {(() => {
             const topRows = [
               { label: 'Carburants',           mult: 6.2 },
@@ -207,93 +231,104 @@ export function VDistribution({ lang }: { lang: Lang }) {
               </div>
             );
           })()}
-        </Card>
+        </StatHeaderCard>
       </div>
     </div>
   );
 }
 
-/* ─── V6 Labor ─── */
+/* ─── V6 Labor — Acme-style rebuild ─── */
 export function VLabor({ lang }: { lang: Lang }) {
-  const v = t.v.labor;
   return (
-    <div className="space-y-8">
-      {/* JobPaw intro — 3 stat cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
-        <StatCard icon={<IconNgo />}  label={lang === 'fr' ? 'ONG' : 'ONG'} whole="46" unit="%" />
-        <StatCard icon={<IconGov />}  label={lang === 'fr' ? 'Secteur public' : 'Sektè piblik'} whole="28" unit="%" />
-        <StatCard icon={<IconBiz />}  label={lang === 'fr' ? 'Secteur privé' : 'Sektè prive'} whole="19" unit="%" />
-      </div>
-
-      <Card title={L(v.annualTitle, lang)} subtitle={lang === 'fr' ? '14 909 offres · base construite par ML' : '14 909 òf · baz konstwi ak ML'}>
-        <JobPawAnnual height={240} />
-        <div className="mt-4 -mx-1 sm:mx-0 px-3.5 sm:px-4 py-3 sm:py-4 rounded-[10px] bg-blue-50 text-[13px] leading-relaxed">
-          <span className="text-ink-2">
-            <strong className="inline-flex items-center gap-1.5 font-medium text-ink mr-1 align-baseline">
-              <i className="ph-bold ph-info text-[15px]" />
-              Portée de l'échantillon&nbsp;:
-            </strong>
-            JobPaw couvre l'emploi formel annoncé en ligne (ONG 46 %, public 28 %, privé 19 %). L'emploi informel, qui représente plus de 80 % du marché du travail haïtien, n'est pas capturé. Les tendances reflètent donc le segment formel&nbsp;; elles sont un indicateur, non une mesure exhaustive.
-          </span>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 xl:gap-7">
+      {/* 1. System Status pattern — sector mix as stacked progress rows */}
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Répartition par secteur' : 'Repatisyon pa sektè'}
+        value="46%"
+        unit={lang === 'fr' ? 'ONG · part dominante' : 'ONG · pati dominan'}
+        meta={lang === 'fr' ? '14 909 offres' : '14 909 òf'}
+      >
+        <div className="space-y-4">
+          <ProgressRow label={lang === 'fr' ? 'ONG' : 'ONG'}            pct={46} color="#1D4ED8" />
+          <ProgressRow label={lang === 'fr' ? 'Secteur public' : 'Sektè piblik'} pct={28} color="#3B82F6" />
+          <ProgressRow label={lang === 'fr' ? 'Secteur privé' : 'Sektè prive'}   pct={19} color="#93C5FD" />
+          <ProgressRow label={lang === 'fr' ? 'Autres' : 'Lòt'}          pct={7}  color="#CBD5E1" />
         </div>
-      </Card>
+      </StatHeaderCard>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 xl:gap-7">
-        <Card title={L(v.sectorsTitle, lang)}>
-          <StackedSectoralBar />
-        </Card>
+      {/* 2. Error Rate pattern — big stat + curve/bars */}
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Offres d\'emploi annuelles' : 'Òf travay chak ane'}
+        value="14 909"
+        unit={lang === 'fr' ? 'offres · 2009–2025' : 'òf · 2009–2025'}
+        meta={lang === 'fr' ? 'Creux · 2020' : 'Pi ba · 2020'}
+      >
+        <DotLegend items={[
+          { label: lang === 'fr' ? 'Événement' : 'Evenman',     color: '#1D4ED8' },
+          { label: lang === 'fr' ? 'Année normale' : 'Ane nòmal', color: '#93C5FD' },
+        ]} />
+        <div className="mt-3"><JobPawAnnual height={220} /></div>
+      </StatHeaderCard>
 
-        <Card title={L(v.domainsTitle, lang)}>
-          <HBarBreakdown items={jobpawDomains} />
-        </Card>
-      </div>
-
-      <Card title={L(v.asymTitle, lang)} subtitle={lang === 'fr' ? 'Réponse des biens au choc du marché du travail' : 'Repons byen yo a chòk mache travay la'}>
-        <div className="space-y-6">
-          {[
-            { label: lang === 'fr' ? 'Non-échangeables' : 'Non-echanjab', meta: '41 catégories · t = 1,42', value: '+1,59%', width: 100, tone: 'bg-blue-700' },
-            { label: lang === 'fr' ? 'Échangeables'     : 'Echanjab',     meta: '115 catégories · t = 1,55', value: '+0,92%', width: (0.92 / 1.59) * 100, tone: 'bg-blue-300' },
-          ].map((r, i) => (
-            <div key={i}>
-              {/* Mobile: value on top, label + meta stacked below. Desktop: inline as before. */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 sm:gap-3 mb-2">
-                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 order-2 sm:order-1">
-                  <span className="text-[14px] sm:text-[13.5px] font-medium text-ink">{r.label}</span>
-                  <span className="text-[12px] sm:text-[12.5px] text-ink-2 tabular-nums">{r.meta}</span>
-                </div>
-                <span className="text-[26px] sm:text-[22px] font-medium tabular-nums text-ink leading-none order-1 sm:order-2">{r.value}</span>
-              </div>
-              <div className="h-2.5 rounded-full bg-rail relative overflow-hidden">
-                <div className={`absolute inset-y-0 left-0 rounded-full ${r.tone}`} style={{ width: `${r.width}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-6 pt-5 border-t border-edge flex flex-col sm:flex-row sm:items-start gap-3">
-          <span className="self-start inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[13px] font-medium tabular-nums shrink-0">
-            <i className="ph-bold ph-arrows-horizontal text-[13px]" />
-            1,73× écart
-          </span>
+      {/* 3. Active Automations pattern — split pill bar */}
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Asymétrie inversée — signature de la spirale prix-salaires' : 'Asymetri envèse — siyati espiral pri-salè'}
+        value="+1,59%"
+        unit={lang === 'fr' ? 'non-échangeables · t=1,42' : 'non-echanjab · t=1,42'}
+        meta={lang === 'fr' ? '×1,73 vs échangeables' : '×1,73 vs echanjab'}
+        className="md:col-span-2"
+      >
+        <div className="space-y-5">
+          <SplitPillBar
+            left={{  value: 1.59, color: '#1D4ED8', label: lang === 'fr' ? 'Non-échangeables  +1,59%' : 'Non-echanjab  +1,59%' }}
+            right={{ value: 0.92, color: '#93C5FD', label: lang === 'fr' ? 'Échangeables  +0,92%'     : 'Echanjab  +0,92%' }}
+            label={lang === 'fr' ? 'Réponse cumulative à h=24 mois' : 'Repons kimile a h=24 mwa'}
+          />
           <p className="text-[13.5px] text-ink-2 leading-relaxed">
             {lang === 'fr'
               ? 'L\'asymétrie inversée — plus forte sur les non-échangeables — est cohérente avec une spirale prix-salaires naissante dans les services et la production locale.'
               : 'Asymetri envèse la — pi fò sou non-echanjab yo — konsistan ak yon espiral pri-salè k ap kòmanse nan sèvis ak pwodiksyon lokal.'}
           </p>
         </div>
-      </Card>
+      </StatHeaderCard>
+
+      {/* 4. Throughput pattern — domain breakdown */}
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Répartition par domaine' : 'Repatisyon pa domèn'}
+        value="33,3%"
+        unit={lang === 'fr' ? 'Management / Finance' : 'Management / Finance'}
+        meta={lang === 'fr' ? 'Top 5 domaines' : 'Top 5 domèn'}
+        className="md:col-span-2"
+      >
+        <HBarBreakdown items={jobpawDomains} />
+      </StatHeaderCard>
+
+      {/* Caveat banner — full width below grid */}
+      <div className="md:col-span-2 -mx-1 sm:mx-0 px-3.5 sm:px-4 py-3 sm:py-4 rounded-[12px] bg-blue-50 text-[13px] leading-relaxed">
+        <span className="text-ink-2">
+          <strong className="inline-flex items-center gap-1.5 font-medium text-ink mr-1 align-baseline">
+            <i className="ph-bold ph-info text-[15px]" />
+            {lang === 'fr' ? 'Portée de l\'échantillon :' : 'Pòte echantiyon an :'}
+          </strong>
+          {lang === 'fr'
+            ? 'JobPaw couvre l\'emploi formel annoncé en ligne. L\'emploi informel, qui représente plus de 80 % du marché du travail haïtien, n\'est pas capturé. Les tendances reflètent donc le segment formel ; elles sont un indicateur, non une mesure exhaustive.'
+            : 'JobPaw kouvri travay fòmèl ki anonse sou entènèt la. Travay enfòmèl la, ki reprezante plis pase 80 % nan mache travay ayisyen an, pa kaptire. Donk tandans yo reflete segman fòmèl la ; yo se yon endikatè, pa yon mezi konplè.'}
+        </span>
+      </div>
     </div>
   );
 }
-
-function IconNgo() { return <i className="ph-bold ph-hand-heart text-[20px]" />; }
-function IconGov() { return <i className="ph-bold ph-bank text-[20px]" />; }
-function IconBiz() { return <i className="ph-bold ph-buildings text-[20px]" />; }
 
 /* ─── V7 Model ─── */
 export function VModel({ lang }: { lang: Lang }) {
   return (
     <div className="space-y-8">
-      <Card title={lang === 'fr' ? 'Forme réduite de l\'inflation' : 'Fòm redui inflasyon an'} subtitle={lang === 'fr' ? 'Équation 6 — modèle partiel, deux secteurs' : 'Ekwasyon 6 — modèl pasyèl, de sektè'}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Forme réduite de l\'inflation' : 'Fòm redui inflasyon an'}
+        value="62%"
+        unit={lang === 'fr' ? 'part du choc politique' : 'pati chòk politik la'}
+        meta={lang === 'fr' ? 'Équation 6 · 5 termes' : 'Ekwasyon 6 · 5 tèm'}
+      >
         <div className="py-6 text-center text-[16px] sm:text-[20px] md:text-[22px] font-medium text-ink leading-relaxed overflow-x-auto scroll-thin" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>
           π<sub>t</sub> = ρ π<sub>t−1</sub> + α Δe<sub>t</sub> + <span className="text-blue-700">β s<sup>P</sup><sub>t</sub></span> + γ s<sup>F</sup><sub>t</sub> + μφ (n<sub>t</sub> − n̄) + ν<sub>t</sub>
         </div>
@@ -335,7 +370,7 @@ export function VModel({ lang }: { lang: Lang }) {
             Décomposition approximative via la forme réduite (équation 6). Robustesse confirmée sur sous-échantillons 2014–2019 et 2019–2025 (§5.5 du papier).
           </div>
         </div>
-      </Card>
+      </StatHeaderCard>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
         {[
@@ -405,13 +440,18 @@ export function VPolicy({ lang }: { lang: Lang }) {
         ))}
       </div>
 
-      <Card title={lang === 'fr' ? 'Citer cet article' : 'Site atik sa a'}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Citer cet article' : 'Site atik sa a'}
+        value="WP/2026/1"
+        unit="DREF · BRH"
+        meta={lang === 'fr' ? 'Mars 2026' : 'Mas 2026'}
+      >
         <div className="p-4 rounded-[10px] bg-rail text-[13.5px] leading-relaxed text-ink">
           <div className="font-medium">Blaise, K. &amp; Cayemitte, J.M.</div>
           <div className="text-ink-2">(2026). Instabilité politique et dynamique des prix en Haïti&nbsp;: une analyse par chocs narratifs.</div>
           <div className="text-ink-2 italic mt-0.5">DREF/BRH Working Paper 2026/1.</div>
         </div>
-      </Card>
+      </StatHeaderCard>
     </div>
   );
 }
@@ -454,8 +494,12 @@ export function VData({ lang }: { lang: Lang }) {
         ))}
       </div>
 
-      <Card title={lang === 'fr' ? 'Statistiques descriptives (Tableau 1)' : 'Estatistik deskriptif (Tablo 1)'}
-            subtitle="Sept. 2014 – Déc. 2025">
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Statistiques descriptives (Tableau 1)' : 'Estatistik deskriptif (Tablo 1)'}
+        value="6"
+        unit={lang === 'fr' ? 'variables · 136 observations' : 'varyab · 136 obsèvasyon'}
+        meta="Sept. 2014 – Déc. 2025"
+      >
        <div className="overflow-x-auto scroll-thin -mx-2">
         <table className="w-full text-[12.5px] min-w-[560px]">
           <thead>
@@ -482,7 +526,7 @@ export function VData({ lang }: { lang: Lang }) {
           </tbody>
         </table>
        </div>
-      </Card>
+      </StatHeaderCard>
     </div>
   );
 }
@@ -491,8 +535,12 @@ export function VData({ lang }: { lang: Lang }) {
 export function VPolitical({ lang }: { lang: Lang }) {
   return (
     <div className="space-y-8">
-      <Card title={lang === 'fr' ? 'Le choc dominant, sous tous les angles' : 'Chòk dominan an, anba tout ang'}
-            subtitle={lang === 'fr' ? 'Pic à +4,93% sur l\'agrégé · effet monotone croissant' : 'Pik nan +4,93% sou agregat la · efè monotòn k ap grandi'}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Le choc dominant, sous tous les angles' : 'Chòk dominan an, anba tout ang'}
+        value="+4,93%"
+        unit={lang === 'fr' ? 'agrégé · t = 1,94' : 'agregat · t = 1,94'}
+        meta={lang === 'fr' ? 'Effet monotone croissant' : 'Efè monotòn k ap grandi'}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
           {[
             { cat: 'Agrégée',           series: irfAggregate.political  },
@@ -521,15 +569,20 @@ export function VPolitical({ lang }: { lang: Lang }) {
             );
           })}
         </div>
-      </Card>
+      </StatHeaderCard>
 
-      <Card title={lang === 'fr' ? 'Pourquoi l\'effet persiste-t-il ?' : 'Poukisa efè a pèsiste ?'}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Pourquoi l\'effet persiste-t-il ?' : 'Poukisa efè a pèsiste ?'}
+        value="24"
+        unit={lang === 'fr' ? 'mois · sans épuisement' : 'mwa · san epuizman'}
+        meta={lang === 'fr' ? 'Régime durable, pas choc temporaire' : 'Rejim dirab, pa chòk tanporè'}
+      >
         <p className="text-[13px] text-ink-2 leading-relaxed">
           {lang === 'fr'
             ? 'À 24 mois, la réponse cumulative de l\'IPC des biens échangeables continue de croître sans montrer de signe d\'épuisement. Cette persistance est cohérente avec l\'idée que l\'instabilité politique n\'est pas un choc temporaire, mais un état durable qui modifie en profondeur les anticipations des agents économiques et le fonctionnement des marchés.'
             : 'Nan 24 mwa, repons kimile IPC byen echanjab yo kontinye grandi san pa gen sign epuizman. Pèsistans sa a konsistan ak lide ke enstabilite politik pa yon chòk tanporè, men yon eta dirab ki modifye anpwofondè atant ajan ekonomik yo ak fonksyònman mache yo.'}
         </p>
-      </Card>
+      </StatHeaderCard>
     </div>
   );
 }
@@ -538,8 +591,12 @@ export function VPolitical({ lang }: { lang: Lang }) {
 export function VFiscal({ lang }: { lang: Lang }) {
   return (
     <div className="space-y-8">
-      <Card title={lang === 'fr' ? 'Effet modéré, non significatif' : 'Efè modere, pa siyifikatif'}
-            subtitle={lang === 'fr' ? 'Pic à +1,42% · t=1,02 · IC 90% traverse zéro' : 'Pik nan +1,42% · t=1,02 · IC 90% travèse zewo'}>
+      <StatHeaderCard
+        label={lang === 'fr' ? 'Effet modéré, non significatif' : 'Efè modere, pa siyifikatif'}
+        value="+1,42%"
+        unit={lang === 'fr' ? 'pic · t=1,02' : 'pik · t=1,02'}
+        meta={lang === 'fr' ? 'IC 90% traverse zéro' : 'IC 90% travèse zewo'}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
           {[
             { cat: 'Agrégée',           series: irfAggregate.fiscal  },
@@ -572,7 +629,7 @@ export function VFiscal({ lang }: { lang: Lang }) {
             ? 'Le canal fiscal-monétaire opère principalement via le taux de change (monétisation → dépréciation → inflation importée), sans effet direct significatif sur les prix domestiques.'
             : 'Kanal fiskal-monetè a fonksyone prensipalman atravè to chanj (monetizasyon → depresyasyon → inflasyon enpòte), san efè dirèk siyifikatif sou pri domestik yo.'}
         </p>
-      </Card>
+      </StatHeaderCard>
     </div>
   );
 }

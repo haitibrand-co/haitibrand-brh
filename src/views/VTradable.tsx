@@ -1,6 +1,6 @@
 import type { Lang } from '../data/i18n';
 import { L, t } from '../data/i18n';
-import { Card, SigPill, BracketRange } from '../components/ui/primitives';
+import { SigPill, BracketRange, StatHeaderCard } from '../components/ui/primitives';
 import { DivergenceChart, DivergenceLegend } from '../components/charts/DivergenceChart';
 import { IRFChart } from '../components/charts/IRFChart';
 import { irfTradable, irfNonTradable } from '../data/series';
@@ -9,37 +9,47 @@ export function VTradable({ lang }: { lang: Lang }) {
   const v = t.v.tradable;
   return (
     <div className="space-y-8">
-      <Card title={L(v.divergeTitle, lang)} subtitle={lang === 'fr' ? 'Indice des prix (base 100) · 1998–2024' : 'Endèks pri (baz 100) · 1998–2024'} right={<DivergenceLegend />}>
+      <StatHeaderCard
+        label={L(v.divergeTitle, lang)}
+        value="×1,97"
+        unit={lang === 'fr' ? 'écart échangeables vs non-éch.' : 'ekat echanjab vs non-ech.'}
+        meta={<DivergenceLegend />}
+      >
         <DivergenceChart height={300} />
-      </Card>
+      </StatHeaderCard>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 xl:gap-7">
-        <Card title={lang === 'fr' ? 'Échangeables (115 catégories)' : 'Echanjab (115 kategori)'}
-              right={<SigPill level="**" />}>
+        <StatHeaderCard
+          label={lang === 'fr' ? 'Échangeables' : 'Echanjab'}
+          value="+5,59%"
+          unit={lang === 'fr' ? 'pic · h=24 · t=1,97' : 'pik · h=24 · t=1,97'}
+          meta={<SigPill level="**" />}
+        >
           <div className="space-y-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-[32px] font-medium tabular-nums text-blue-700">+5,59%</span>
-              <span className="text-[12px] text-ink-2">pic à h=24 · t=1,97</span>
-            </div>
             <IRFChart data={irfTradable.political} tone="political" peakH={24} height={140} />
             <BracketRange lo={0.92} hi={10.26} mid={5.59} label="IC 90%" />
           </div>
-        </Card>
+        </StatHeaderCard>
 
-        <Card title={lang === 'fr' ? 'Non-échangeables (41 catégories)' : 'Non-echanjab (41 kategori)'}
-              right={<SigPill level="*" />}>
+        <StatHeaderCard
+          label={lang === 'fr' ? 'Non-échangeables' : 'Non-echanjab'}
+          value="+2,84%"
+          unit={lang === 'fr' ? 'pic · h=17 · t=1,90' : 'pik · h=17 · t=1,90'}
+          meta={<SigPill level="*" />}
+        >
           <div className="space-y-4">
-            <div className="flex items-baseline gap-2">
-              <span className="text-[32px] font-medium tabular-nums text-blue-500">+2,84%</span>
-              <span className="text-[12px] text-ink-2">pic à h=17 · t=1,90</span>
-            </div>
             <IRFChart data={irfNonTradable.political} tone="labor" peakH={17} height={140} />
             <BracketRange lo={0.39} hi={5.29} mid={2.84} label="IC 90%" />
           </div>
-        </Card>
+        </StatHeaderCard>
       </div>
 
-      <Card title={L(v.ratioTitle, lang)} subtitle={lang === 'fr' ? 'Ratio des réponses au choc politique' : 'Rapò repons yo ak chòk politik la'}>
+      <StatHeaderCard
+        label={L(v.ratioTitle, lang)}
+        value="×1,97"
+        unit={lang === 'fr' ? 'importés vs locaux' : 'enpòte vs lokal'}
+        meta={lang === 'fr' ? 'Canal du taux de change' : 'Kanal to chanj la'}
+      >
         <div className="space-y-6">
           {/* Row 1 — Échangeables (bigger bar) */}
           <div>
@@ -80,9 +90,14 @@ export function VTradable({ lang }: { lang: Lang }) {
               : 'Pwodui enpòte yo soufri prèske de fwa plis. Siyati kanal to chanj la.'}
           </p>
         </div>
-      </Card>
+      </StatHeaderCard>
 
-      <Card title={L(v.passThru, lang)} subtitle={lang === 'fr' ? 'Mécanisme de transmission avec magnitudes empiriques' : 'Mekanism transmisyon ak mayitid anpirik'}>
+      <StatHeaderCard
+        label={L(v.passThru, lang)}
+        value="4"
+        unit={lang === 'fr' ? 'étapes de transmission' : 'etap transmisyon'}
+        meta={lang === 'fr' ? 'Politique → HTG → importés' : 'Politik → HTG → enpòte'}
+      >
         {(() => {
           const nodes = [
             { label: 'Instabilité politique', sub: 's = 2 au pic',       tone: 'blue-700' },
@@ -139,7 +154,7 @@ export function VTradable({ lang }: { lang: Lang }) {
         <div className="mt-5 pt-4 border-t border-edge text-[11.5px] text-ink-2">
           Source&nbsp;: BRH (flux nets de change, taux de change HTG/USD) · IHSI (IPC échangeables) · Propositions 1 &amp; 2 du modèle §6.
         </div>
-      </Card>
+      </StatHeaderCard>
     </div>
   );
 }

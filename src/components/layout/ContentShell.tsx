@@ -12,7 +12,7 @@ export function ContentShell({
       {/* Sticky top header */}
       <header className="sticky top-0 z-10 bg-page/95 backdrop-blur-sm border-b border-edge">
         {/* Breadcrumb row — hidden on mobile (paper ID lives in the compact top bar) */}
-        <div className="hidden sm:flex px-5 md:px-8 py-4 items-center gap-4">
+        <div className="hidden sm:flex px-5 md:px-6 py-5 md:py-6 items-center gap-4">
           <div className="flex items-center gap-2 text-[13px] text-ink-2 min-w-0">
             <span>BRH</span>
             <i className="ph ph-caret-right text-[11px] text-ink-3" />

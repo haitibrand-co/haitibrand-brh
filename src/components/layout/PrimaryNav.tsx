@@ -5,7 +5,7 @@ import { NavPill, VerifiedCheck } from '../ui/primitives';
 
 export function PrimaryNav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
-    <aside className="w-[224px] shrink-0 bg-page border-r border-edge flex flex-col">
+    <aside className="w-[250px] shrink-0 bg-page flex flex-col h-full">
       {/* Brand — text only, logo lives in the institution footer */}
       <div className="px-4 pt-6 pb-3">
         <div className="text-[15px] font-medium leading-tight text-ink">BRH · DREF</div>
@@ -49,10 +49,8 @@ export function PrimaryNav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =
         </nav>
       </div>
 
-      <div className="flex-1" />
-
-      {/* Language toggle — stronger contrast */}
-      <div className="mx-3 mb-3">
+      {/* Language toggle — sits right after Données */}
+      <div className="mx-3 mt-4">
         <div className="px-1 py-1 text-[11px] font-medium tracking-[0.08em] text-ink-2 uppercase mb-1.5">
           {lang === 'fr' ? 'Langue' : 'Lang'}
         </div>
@@ -71,7 +69,7 @@ export function PrimaryNav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =
       </div>
 
       {/* PDF file row — no fake dropdown */}
-      <div className="mx-3 mb-3">
+      <div className="mx-3 mt-3">
         <div className="flex items-center gap-2.5 border border-edge rounded-[10px] px-3 py-2.5 bg-card">
           <i className="ph ph-file-pdf text-[18px] text-blue-700" />
           <span className="text-[12.5px] truncate flex-1 font-medium">BRH-WP-2026-01.pdf</span>
@@ -88,8 +86,10 @@ export function PrimaryNav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =
         </div>
       </div>
 
-      {/* HaitiBrand signature — eyebrow shifted right to align with the 'H' of the logo */}
-      <div className="mx-3 mb-4 px-4 py-3.5 rounded-[10px] bg-rail">
+      <div className="flex-1" />
+
+      {/* HaitiBrand signature — same card look, flush to bottom (no mb) */}
+      <div className="mx-3 mb-3 px-4 py-3.5 rounded-[10px] bg-rail">
         <div className="text-[10px] uppercase tracking-[0.12em] text-ink-2 font-medium leading-none mb-2.5" style={{ paddingLeft: '4px' }}>
           {lang === 'fr' ? 'Développé par' : 'Devlope pa'}
         </div>

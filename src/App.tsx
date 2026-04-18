@@ -18,6 +18,7 @@ import {
   VPolitical,
   VFiscal,
 } from './views/VOthers';
+import { DebugInspector } from './components/dev/DebugInspector';
 
 function App() {
   const [lang, setLang] = useState<Lang>('fr');
@@ -60,9 +61,12 @@ function App() {
   const synopsis = meta?.synopsis ? L(meta.synopsis, lang) : '';
 
   return (
-    <div className="h-screen flex bg-page overflow-hidden">
-      {/* Primary nav: hidden at mobile; full-width drawer or static */}
+    <div className="h-screen flex bg-rail overflow-hidden">
+      {/* Primary nav — flush to top/left/bottom, no rounding */}
       {!isNarrow && <PrimaryNav lang={lang} setLang={setLang} />}
+
+      {/* Spacer — grey strip between PrimaryNav card and QuestionRail */}
+      {!isNarrow && !isCompact && <div className="w-3 sm:w-4 md:w-5 shrink-0" />}
 
       {/* Question rail: visible at ≥1280px, drawer below */}
       {!isCompact && <QuestionRail lang={lang} activeId={active} setActive={setActive} />}
@@ -89,12 +93,14 @@ function App() {
         </>
       )}
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 bg-rail p-3 sm:p-4 md:p-5 overflow-hidden">
+        <div className="flex-1 min-h-0 flex flex-col bg-page rounded-[20px] overflow-hidden shadow-[0_1px_2px_rgba(15,23,42,0.04)] border border-edge">
         <ContentShell lang={lang} activeLabel={label} title={title} kicker={kicker} synopsis={synopsis} onNavigate={onPick}>
           <div key={active} className="view-enter">
             <View lang={lang} />
           </div>
         </ContentShell>
+        </div>
       </div>
 
       {/* Mobile bottom action bar — thumb-reach nav + download */}
@@ -121,6 +127,8 @@ function App() {
           </a>
         </div>
       )}
+
+      {import.meta.env.DEV && <DebugInspector />}
     </div>
   );
 }

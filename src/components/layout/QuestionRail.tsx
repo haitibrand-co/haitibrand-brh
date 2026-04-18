@@ -6,8 +6,8 @@ export function QuestionRail({
 }: { lang: Lang; activeId: string; setActive: (id: string) => void }) {
   const groups = ['essential', 'causes', 'mechanisms', 'consequences'] as const;
   return (
-    <aside className="w-[280px] shrink-0 bg-rail border-r border-edge flex flex-col overflow-hidden">
-      <div className="px-5 pt-6 pb-4">
+    <aside className="w-[280px] shrink-0 bg-rail flex flex-col overflow-hidden">
+      <div className="px-5 pt-[116px] pb-4">
         <h2 className="text-[17px] font-medium text-ink">{L(t.nav.readerQs, lang)}</h2>
         <p className="text-[12.5px] text-ink-2 mt-1">{lang === 'fr' ? 'Cliquez pour explorer.' : 'Klike pou w eksplore.'}</p>
       </div>

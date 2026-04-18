@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Lang } from '../data/i18n';
 import { L, t } from '../data/i18n';
-import { Card, HorizontalFunnel, SigPill, BracketRange, SegmentedTabs } from '../components/ui/primitives';
+import { HorizontalFunnel, SigPill, BracketRange, SegmentedTabs, StatHeaderCard } from '../components/ui/primitives';
 import { IRFChart } from '../components/charts/IRFChart';
 import { ShockBars } from '../components/charts/ShockBars';
 import { irfAggregate, irfTradable, irfNonTradable, persistenceSteps } from '../data/series';
@@ -26,28 +26,39 @@ export function VHierarchy({ lang }: { lang: Lang }) {
     <div className="space-y-8">
       {/* Wide: vertical bar chart of responses. Narrow: horizontal hierarchy cascade. */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 xl:gap-7">
-        <Card className="md:col-span-2" title={lang === 'fr' ? 'Réponses comparées à l\'horizon 24 mois' : 'Repons konpare nan orizon 24 mwa'} subtitle={lang === 'fr' ? 'Réponse cumulative de l\'IPC · barres d\'erreur IC 90%' : 'Repons kimile IPC · ba erè IC 90%'}>
+        <StatHeaderCard className="md:col-span-2"
+          label={lang === 'fr' ? 'Réponses comparées à l\'horizon 24 mois' : 'Repons konpare nan orizon 24 mwa'}
+          value="+4,93%"
+          unit={lang === 'fr' ? 'politique · seul significatif' : 'politik · sèl siyifikatif'}
+          meta={lang === 'fr' ? 'IC 90% · Jordà (2005)' : 'IC 90% · Jordà (2005)'}
+        >
           <ShockBars />
-        </Card>
+        </StatHeaderCard>
 
-        <Card title={L(v.funnelTitle, lang)} subtitle={lang === 'fr' ? 'Effet cumulatif, pic observé' : 'Efè kimile, pik obsève'}>
+        <StatHeaderCard
+          label={L(v.funnelTitle, lang)}
+          value="1 / 3"
+          unit={lang === 'fr' ? 'choc significatif' : 'chòk siyifikatif'}
+          meta={lang === 'fr' ? 'Pic observé' : 'Pik obsève'}
+        >
           <HorizontalFunnel items={[
             { label: 'Instabilité politique', value: '+4,93%', sub: 'h=24 · t=1,94', shade: 1 },
             { label: 'Choc fiscal',           value: '+1,42%', sub: 'h=21 · t=1,02', shade: 0.6 },
             { label: 'Marché du travail',     value: '+0,90%', sub: 'h=15 · t=0,84', shade: 0.3 },
           ]} />
-        </Card>
+        </StatHeaderCard>
       </div>
 
       {/* IRF triptych with segmented tabs + horizon slider */}
-      <Card
-        title={L(v.irfTitle, lang)}
-        subtitle={lang === 'fr' ? 'Projections locales (Jordà, 2005) · segmentez la catégorie, glissez l\'horizon' : 'Pwojeksyon lokal (Jordà, 2005) · segmante kategori a, glise orizon an'}
-        right={
-          <div className="flex items-center gap-3 text-[12px]">
+      <StatHeaderCard
+        label={L(v.irfTitle, lang)}
+        value={`+${val(cutData.political)}%`}
+        unit={lang === 'fr' ? `choc politique · h=${h}` : `chòk politik · h=${h}`}
+        meta={
+          <div className="flex items-center gap-2 text-[12px]">
             <span className="text-ink-2">{L(v.sliderLabel, lang)}</span>
-            <input type="range" min={0} max={25} value={h} onChange={e => setH(+e.target.value)} className="w-32 accent-blue-700" />
-            <span className="text-ink font-medium tabular-nums w-8">{h}</span>
+            <input type="range" min={0} max={25} value={h} onChange={e => setH(+e.target.value)} className="w-24 accent-blue-700" />
+            <span className="text-ink font-medium tabular-nums w-6 text-right">{h}</span>
           </div>
         }
       >
@@ -104,10 +115,15 @@ export function VHierarchy({ lang }: { lang: Lang }) {
             </div>
           </div>
         </div>
-      </Card>
+      </StatHeaderCard>
 
       {/* Persistence card */}
-      <Card title={L(v.persistTitle, lang)} subtitle={L(v.persistNote, lang)}>
+      <StatHeaderCard
+        label={L(v.persistTitle, lang)}
+        value="2,15"
+        unit={lang === 'fr' ? '× multiplicateur long terme' : '× miltiplikatè long tèm'}
+        meta={L(v.persistNote, lang)}
+      >
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {persistenceSteps.map((p, i) => (
             <div key={i} className="flex flex-col items-center">
@@ -125,7 +141,7 @@ export function VHierarchy({ lang }: { lang: Lang }) {
             ? 'Chaque choc initial de 1 point de pourcentage génère un effet cumulé de 2,15 points à long terme.'
             : 'Chak chòk inisyal 1 pwen pousantaj pwodui yon efè kimile 2,15 pwen alontèm.'}
         </div>
-      </Card>
+      </StatHeaderCard>
     </div>
   );
 }
