@@ -32,13 +32,13 @@ export const t = {
     hero: {
       kicker: { fr: 'Section 4.1 · 5 min de lecture · Données : IHSI', ht: 'Seksyon 4.1 · 5 min lekti · Done : IHSI' },
       title:  { fr: 'Que se passe-t-il avec les prix en Haïti ?',       ht: 'Kisa k ap pase ak pri yo ann Ayiti ?' },
-      synopsis: { fr: 'Vue d\'ensemble des quatre chocs qui ont fait basculer l\'IPC après 2018 : instabilité politique, taux de change, budgétaire, marché du travail. Les chiffres clés en un coup d\'œil.', ht: 'Yon rezime kat chòk ki fè IPC a chavire apre 2018 : enstabilite politik, to chanj, bidjetè, mache travay. Chif kle yo an yon kout je.' },
+      synopsis: { fr: 'Vue d\'ensemble des trois chocs narratifs qui expliquent la flambée de l\'IPC après 2018 : instabilité politique, choc fiscal, marché du travail. Les chiffres clés en un coup d\'œil.', ht: 'Yon rezime twa chòk naratif ki esplike montre pri yo apre 2018 : enstabilite politik, chòk fiskal, mache travay. Chif kle yo an yon kout je.' },
       kpi: [
         { label: { fr: 'Pente pré-2018', ht: 'Pant pre-2018' }, value: '3,2', unit: { fr: 'pts/an', ht: 'pts/an' } },
         { label: { fr: 'Pente post-2018', ht: 'Pant pòs-2018' }, value: '42', unit: { fr: 'pts/an', ht: 'pts/an' }, delta: '×13' },
         { label: { fr: 'Pic d\'inflation', ht: 'Pi wo inflasyon' }, value: '49,3', unit: '%', year: '2024' },
         { label: { fr: 'Années de récession', ht: 'Ane resesyon' }, value: '7', unit: { fr: 'consécutives', ht: 'konsekitif' } },
-        { label: { fr: 'Chocs politiques codés', ht: 'Chòk politik kode' }, value: '75', unit: '/ 136 mois' },
+        { label: { fr: 'Choc politique cumulé', ht: 'Chòk politik kimile' }, value: '4,93', unit: { fr: '% · IPC · h=24', ht: '% · IPC · h=24' } },
       ],
       chartTitle: { fr: 'Changement de régime de l\'IPC (1998–2024)', ht: 'Chanjman rejim IPC (1998–2024)' },
       chartSub:   { fr: 'Rupture : Juillet 2018, Peyi Lock', ht: 'Kraze : Jiyè 2018, Peyi Lock' },
@@ -90,13 +90,13 @@ export const t = {
     rupture: {
       title: { fr: 'Quand tout a basculé ?', ht: 'Kilè tout bagay te chanje ?' },
       kicker: { fr: 'Section 2.2 · Rupture structurelle post-2018', ht: 'Seksyon 2.2 · Chanjman estriktirèl pòs-2018' },
-      synopsis: { fr: 'Juillet 2018, Peyi Lock : point de bascule. La pente annuelle de l\'IPC est multipliée par treize et 75 chocs politiques sont codés sur les 136 mois suivants.', ht: 'Jiyè 2018, Peyi Lock : pwen chavire. Pant anyèl IPC a miltipliye pa trèz e 75 chòk politik kode sou 136 mwa ki vin apre.' },
+      synopsis: { fr: 'Juillet 2018, Peyi Lock : point de bascule. La pente annuelle de l\'IPC est multipliée par treize, passant de 3,2 à 42 points par an.', ht: 'Jiyè 2018, Peyi Lock : pwen chavire. Pant anyèl IPC a miltipliye pa trèz, soti 3,2 rive 42 pwen pa ane.' },
       timelineTitle: { fr: 'Événements politiques majeurs', ht: 'Evenman politik majè' },
     },
     model: {
       title: { fr: 'Quel modèle explique tout cela ?', ht: 'Ki modèl ki esplike tout sa ?' },
       kicker: { fr: 'Section 6 · Trois propositions testables', ht: 'Seksyon 6 · Twa pwopozisyon tèstab' },
-      synopsis: { fr: 'Forme réduite à cinq termes : persistance, taux de change, choc politique, choc fiscal, spirale salariale. Le terme politique explique 62 % de l\'inflation cumulative.', ht: 'Fòm redui ak senk tèm : pèsistans, to chanj, chòk politik, chòk fiskal, espiral salè. Tèm politik la esplike 62 % inflasyon kimile a.' },
+      synopsis: { fr: 'Forme réduite (équation 6) à cinq composantes : persistance, pass-through du change, choc politique, canal fiscal, spirale prix-salaires. Trois propositions testables et confirmées empiriquement.', ht: 'Fòm redui (ekwasyon 6) ak senk konpozant : pèsistans, pass-through chanj, chòk politik, kanal fiskal, espiral pri-salè. Twa pwopozisyon tèstab e konfime anpirikman.' },
     },
     policy: {
       title: { fr: 'Que faire selon les auteurs ?', ht: 'Sa pou fè selon otè yo ?' },
@@ -111,7 +111,7 @@ export const t = {
     political: {
       title: { fr: 'L\'instabilité politique domine-t-elle vraiment ?', ht: 'Èske enstabilite politik la domine vrèman ?' },
       kicker: { fr: 'Section 5.3 · Choc dominant', ht: 'Seksyon 5.3 · Chòk dominan' },
-      synopsis: { fr: 'Le choc politique est le seul dont l\'intervalle de confiance à 90 % ne traverse jamais zéro sur l\'horizon 0–24 mois. Effet monotone et persistant.', ht: 'Chòk politik la se sèl la ki entèval konfyans 90 % li pa janm travèse zewo sou orizon 0–24 mwa. Efè monoton e pèsistan.' },
+      synopsis: { fr: 'Le choc politique est le seul statistiquement significatif (p<0,10) à son pic à 24 mois. Effet monotone croissant, sans retour à la moyenne sur l\'horizon 0–24 mois.', ht: 'Chòk politik la se sèl la ki estatistikman siyifikatif (p<0,10) nan pik li a 24 mwa. Efè monotòn k ap grandi, san retounen nan mwayèn sou orizon 0–24 mwa.' },
     },
     fiscal: {
       title: { fr: 'Et la politique budgétaire ?', ht: 'E politik bidjetè a ?' },

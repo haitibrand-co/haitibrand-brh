@@ -62,8 +62,8 @@ export function VRupture({ lang }: { lang: Lang }) {
 
       <StatHeaderCard
         label={L(v.timelineTitle, lang)}
-        value="75"
-        unit={lang === 'fr' ? 'mois de choc / 136' : 'mwa chòk / 136'}
+        value="5"
+        unit={lang === 'fr' ? 'épisodes majeurs · 2018 → 2024' : 'epizòd majè · 2018 → 2024'}
         meta={lang === 'fr' ? 'Intensité codée 0–2' : 'Entansite kode 0–2'}
       >
         {/* Mobile: vertical list with dot rail */}

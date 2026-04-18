@@ -17,7 +17,7 @@ export function VHero({ lang }: { lang: Lang }) {
             { compare: lang === 'fr' ? 'post-2018'     : 'pòs-2018',      icon: 'ph-trend-up',     iconColor: '#DC2626', deltaTone: 'negative' },
             { compare: lang === 'fr' ? 'sept. 2024'    : 'sept. 2024',    icon: 'ph-flame',        iconColor: '#DC2626' },
             { compare: lang === 'fr' ? 'depuis 2018'   : 'depi 2018',     icon: 'ph-clock-countdown', iconColor: '#64748B' },
-            { compare: lang === 'fr' ? '2014 → 2025'   : '2014 → 2025',   icon: 'ph-lightning',    iconColor: '#1D4ED8' },
+            { compare: lang === 'fr' ? 'p<0,10 · Table 2'   : 'p<0,10 · Tablo 2',   icon: 'ph-lightning',    iconColor: '#DC2626', deltaTone: 'negative' },
           ];
           const extra = extras[i] ?? { compare: '', icon: 'ph-trend-up', iconColor: '#1D4ED8' };
           return {
@@ -98,7 +98,7 @@ export function VHero({ lang }: { lang: Lang }) {
         <Card className="md:col-span-2" title={lang === 'fr' ? 'Ce que dit le papier' : 'Sa papye a di'} subtitle={lang === 'fr' ? 'Trois résultats principaux, classés par force statistique' : 'Twa rezilta prensipal, klase pa fòs estatistik'}>
           <div className="space-y-4">
             {v.bullets.map((b, i) => {
-              const strength = [95, 70, 55][i] ?? 50;
+              const strength = [70, 95, 55][i] ?? 50;
               const tag = strength >= 90 ? 'p<0,05' : strength >= 65 ? 'p<0,10' : 'non significatif';
               const tagCls = strength >= 90 ? 'text-positive bg-positive-bg' : strength >= 65 ? 'text-blue-700 bg-blue-50' : 'text-ink-2 bg-rail';
               return (
