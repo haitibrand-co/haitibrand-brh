@@ -6,8 +6,8 @@ import { ChipDashed } from '../ui/primitives';
 import { SearchBox } from './SearchBox';
 
 export function ContentShell({
-  lang, activeLabel, kicker, title, children, onNavigate,
-}: { lang: Lang; activeLabel: string; kicker?: string; title: string; children: ReactNode; onNavigate: (id: string) => void }) {
+  lang, activeLabel, kicker, title, synopsis, children, onNavigate,
+}: { lang: Lang; activeLabel: string; kicker?: string; title: string; synopsis?: string; children: ReactNode; onNavigate: (id: string) => void }) {
   return (
     <main className="flex-1 overflow-y-auto scroll-thin bg-page min-w-0">
       {/* Sticky top header */}
@@ -43,7 +43,14 @@ export function ContentShell({
         </div>
       </header>
 
-      <div className="px-5 md:px-8 py-6 pb-[calc(env(safe-area-inset-bottom,0px)+96px)] sm:pb-24">{children}</div>
+      <div className="px-5 md:px-8 py-6 pb-[calc(env(safe-area-inset-bottom,0px)+96px)] sm:pb-24">
+        {synopsis && (
+          <div className="mb-6 px-4 py-3 rounded-[12px] bg-rail text-[13.5px] text-ink-2 leading-relaxed">
+            {synopsis}
+          </div>
+        )}
+        {children}
+      </div>
 
       <footer className="px-5 md:px-8 py-[32px] border-t border-edge text-[13px] text-ink-2 flex items-center">
         Banque de la République d'Haïti · DREF · {paper.id} · {paper.date} · <span className="underline decoration-dotted ml-1">brh.ht</span>

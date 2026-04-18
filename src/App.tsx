@@ -57,6 +57,7 @@ function App() {
   const meta = (t.v as any)[active];
   const title = meta?.title ? L(meta.title, lang) : label;
   const kicker = meta?.kicker ? L(meta.kicker, lang) : '';
+  const synopsis = meta?.synopsis ? L(meta.synopsis, lang) : '';
 
   return (
     <div className="h-screen flex bg-page overflow-hidden">
@@ -89,7 +90,7 @@ function App() {
       )}
 
       <div className="flex-1 flex flex-col min-w-0">
-        <ContentShell lang={lang} activeLabel={label} title={title} kicker={kicker} onNavigate={onPick}>
+        <ContentShell lang={lang} activeLabel={label} title={title} kicker={kicker} synopsis={synopsis} onNavigate={onPick}>
           <div key={active} className="view-enter">
             <View lang={lang} />
           </div>
