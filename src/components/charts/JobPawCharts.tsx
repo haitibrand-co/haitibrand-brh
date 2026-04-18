@@ -1,19 +1,14 @@
-import { ResponsiveContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Area, ComposedChart } from 'recharts';
+import { ResponsiveContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, BarChart, Cell } from 'recharts';
 import { jobpawAnnual, jobpawSectors, jobpawDomains } from '../../data/paper';
 import { DarkTooltip } from '../ui/primitives';
 
+/** Annual JobPaw offers — discrete yearly counts rendered as bars (no false interpolation). */
 export function JobPawAnnual({ height = 220 }: { height?: number }) {
   const events = jobpawAnnual.filter(d => d.event);
   return (
     <div style={{ width: '100%', height }}>
       <ResponsiveContainer>
-        <ComposedChart data={jobpawAnnual} margin={{ left: 8, right: 16, top: 32, bottom: 20 }}>
-          <defs>
-            <linearGradient id="jpFade" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stopColor="#1D4ED8" stopOpacity="0.18" />
-              <stop offset="1" stopColor="#1D4ED8" stopOpacity="0" />
-            </linearGradient>
-          </defs>
+        <BarChart data={jobpawAnnual} margin={{ left: 8, right: 16, top: 32, bottom: 20 }} barCategoryGap="22%">
           <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 4" vertical={false} />
           <XAxis dataKey="year" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} axisLine={false} tickLine={false} />
           <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={32} />
@@ -36,10 +31,13 @@ export function JobPawAnnual({ height = 220 }: { height?: number }) {
               }}
             />
           ))}
-          <Area type="monotone" dataKey="offers" stroke="none" fill="url(#jpFade)" isAnimationActive={true} animationDuration={900} animationEasing="ease-out" />
-          <Line type="monotone" dataKey="offers" stroke="#1D4ED8" strokeWidth={2} dot={{ r: 3, fill: '#1D4ED8' }} isAnimationActive={true} animationDuration={900} animationEasing="ease-out" name="Offres d'emploi" />
-          <Tooltip content={(p: any) => <DarkTooltip payload={p.payload ?? []} label={String(p.label)} formatter={(v:number) => `${v} offres`} />} />
-        </ComposedChart>
+          <Bar dataKey="offers" radius={[4, 4, 0, 0]} isAnimationActive={true} animationDuration={900} animationEasing="ease-out" name="Offres d'emploi">
+            {jobpawAnnual.map((d, i) => (
+              <Cell key={i} fill={d.event ? '#1D4ED8' : '#93C5FD'} />
+            ))}
+          </Bar>
+          <Tooltip cursor={{ fill: 'rgba(29, 78, 216, 0.06)' }} content={(p: any) => <DarkTooltip payload={p.payload ?? []} label={String(p.label)} formatter={(v:number) => `${v} offres`} />} />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
