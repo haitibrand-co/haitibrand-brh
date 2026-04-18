@@ -25,15 +25,15 @@ export function RegimeChart({ height = 340 }: { height?: number }) {
 
   return (
     <div className="relative">
-      {/* Top-right legend */}
-      <div className="absolute top-0 right-0 flex items-center gap-4 text-[12px] text-ink-2 z-10">
+      {/* Legend — on top, wraps on mobile */}
+      <div className="flex items-center gap-3 sm:gap-4 text-[11.5px] sm:text-[12px] text-ink-2 mb-3 flex-wrap">
         <span className="flex items-center gap-2"><span className="w-3 h-[2px] bg-blue-700 rounded-full" />IPC réel</span>
         <span className="flex items-center gap-2"><span className="w-3 h-[2px] rounded-full" style={{ background: '#94A3B8', backgroundImage: 'repeating-linear-gradient(to right, #94A3B8 0 4px, transparent 4px 7px)' }} />Tendance pré-2018 projetée</span>
       </div>
 
       <div style={{ width: '100%', height }}>
         <ResponsiveContainer>
-          <ComposedChart data={data} margin={{ left: 8, right: 140, top: 36, bottom: 20 }}>
+          <ComposedChart data={data} margin={{ left: 4, right: 82, top: 18, bottom: 20 }}>
             <defs>
               <linearGradient id="postFade" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0" stopColor="#1D4ED8" stopOpacity="0.18" />
@@ -41,7 +41,7 @@ export function RegimeChart({ height = 340 }: { height?: number }) {
               </linearGradient>
             </defs>
             <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 4" vertical={false} />
-            <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} tickFormatter={(v) => v.slice(0,4)} interval={35} axisLine={false} tickLine={false} />
+            <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} tickFormatter={(v) => v.slice(0,4)} interval="preserveStartEnd" minTickGap={48} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={36} />
             <ReferenceLine x={ruptureDate} stroke="#DC2626" strokeDasharray="4 4" label={{ value: 'Juil. 2018 · Peyi Lock', position: 'insideTop', fontSize: 12, fill: '#DC2626', offset: 8 }} />
 

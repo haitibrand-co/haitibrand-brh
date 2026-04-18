@@ -65,13 +65,23 @@ function App() {
       {/* Question rail: visible at ≥1280px, drawer below */}
       {!isCompact && <QuestionRail lang={lang} activeId={active} setActive={setActive} />}
 
-      {/* Compact: top-of-content "Questions" dropdown trigger */}
+      {/* Compact: drawer with rail + primary nav */}
       {isCompact && (
         <>
           {railOpen && (
-            <div className="fixed inset-0 z-40 bg-black/30" onClick={() => setRailOpen(false)} />
+            <div className="fixed inset-0 z-40 bg-ink/40 backdrop-blur-[2px]" onClick={() => setRailOpen(false)} />
           )}
-          <div className={`fixed inset-y-0 left-0 z-50 transition-transform duration-200 ${railOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className={`fixed inset-y-0 left-0 z-50 transition-transform duration-250 ease-out flex ${railOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            {/* Close button floating on top-right of drawer */}
+            {railOpen && (
+              <button
+                onClick={() => setRailOpen(false)}
+                className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-card border border-edge flex items-center justify-center text-ink hover:bg-hover shadow-pill"
+                aria-label="Fermer"
+              >
+                <i className="ph-bold ph-x text-[16px]" />
+              </button>
+            )}
             <QuestionRail lang={lang} activeId={active} setActive={onPick} />
           </div>
         </>
@@ -79,15 +89,15 @@ function App() {
 
       <div className="flex-1 flex flex-col min-w-0">
         {isCompact && (
-          <div className="bg-card border-b border-edge px-5 py-2 flex items-center gap-3">
+          <div className="bg-card border-b border-edge px-4 sm:px-5 py-2.5 flex items-center gap-3 sticky top-0 z-20">
             <button
               onClick={() => setRailOpen(true)}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[8px] border border-edge bg-page text-[12px] text-ink-2 hover:bg-hover"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-edge bg-page text-[13px] text-ink font-medium hover:bg-hover min-h-[40px]"
             >
-              <i className="ph ph-list text-[14px]" />
+              <i className="ph-bold ph-list text-[16px]" />
               {lang === 'fr' ? 'Questions' : 'Kesyon'}
             </button>
-            <span className="text-[12px] text-ink-2 truncate">{label}</span>
+            <span className="text-[12.5px] text-ink-2 truncate flex-1">{label}</span>
           </div>
         )}
 

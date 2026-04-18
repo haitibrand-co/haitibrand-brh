@@ -10,7 +10,7 @@ export function CandleLine({ height = 260 }: { height?: number }) {
       <ResponsiveContainer>
         <ComposedChart data={candleData} margin={{ left: 8, right: 16, top: 12, bottom: 20 }}>
           <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 4" vertical={false} />
-          <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} tickFormatter={(v) => v.slice(0,4)} interval={35} axisLine={false} tickLine={false} />
+          <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} tickFormatter={(v) => v.slice(0,4)} interval="preserveStartEnd" minTickGap={48} axisLine={false} tickLine={false} />
           <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={36} unit="%" />
           <ReferenceLine y={0} stroke="#CBD5E1" />
           <ReferenceLine x="2018-07" stroke="#DC2626" strokeDasharray="4 4" label={{ value: 'Peyi Lock', position: 'insideTopRight', fontSize: 12, fill: '#DC2626' }} />

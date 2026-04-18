@@ -30,8 +30,8 @@ export function InfoIcon({ tip }: { tip: string }) {
 
 /** Number with consistent font/size/color — unit is the only muted element */
 export function NumberDiminuendo({ whole, fraction, unit, size = 'xl' }: { whole: string; fraction?: string; unit?: string; size?: 'xl' | 'lg' | 'md' }) {
-  const numCls = size === 'xl' ? 'text-[42px] leading-none' : size === 'lg' ? 'text-[34px] leading-none' : 'text-[22px] leading-none';
-  const unitCls = size === 'xl' ? 'text-[14px] text-ink-2 ml-2 font-normal' : 'text-[13px] text-ink-2 ml-1.5 font-normal';
+  const numCls = size === 'xl' ? 'text-[36px] sm:text-[42px] leading-none' : size === 'lg' ? 'text-[28px] sm:text-[34px] leading-none' : 'text-[20px] sm:text-[22px] leading-none';
+  const unitCls = size === 'xl' ? 'text-[13px] sm:text-[14px] text-ink-2 ml-1.5 sm:ml-2 font-normal' : 'text-[12px] sm:text-[13px] text-ink-2 ml-1 sm:ml-1.5 font-normal';
   return (
     <div className="inline-flex items-baseline tabular-nums font-medium text-ink">
       <span className={numCls}>
@@ -93,15 +93,15 @@ export function StatCard({
 /** Stat strip (Pipesale) — 5 KPIs inline with soft dividers */
 export function StatStrip({ items }: { items: { label: string; whole: string; fraction?: string; unit?: string; delta?: string; tip?: string }[] }) {
   return (
-    <div className="bg-card rounded-[16px] border border-edge p-4 md:px-6 md:py-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-y-4">
+    <div className="bg-card rounded-[16px] border border-edge p-4 md:px-6 md:py-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-y-5">
       {items.map((it, i) => (
-        <div key={i} className={`px-3 md:px-4 ${i > 0 ? 'lg:border-l border-edge' : ''} ${i > 0 && i % 2 === 0 ? 'sm:border-l' : ''} ${i > 0 && i % 3 !== 0 ? 'sm:border-l' : ''}`}>
-          <div className="text-[13px] text-ink-2 mb-2 flex items-center gap-1.5 truncate">
+        <div key={i} className={`px-3 md:px-4 ${i > 0 ? 'lg:border-l border-edge' : ''} ${i > 0 && i % 3 !== 0 ? 'sm:border-l' : ''}`}>
+          <div className="text-[12px] md:text-[13px] text-ink-2 mb-2 flex items-center gap-1.5 leading-tight">
             {it.label}
             {it.tip && <InfoIcon tip={it.tip} />}
           </div>
           <NumberDiminuendo whole={it.whole} fraction={it.fraction} unit={it.unit} size="lg" />
-          {it.delta && <div className="mt-1"><DeltaChip value={it.delta} direction="up" /></div>}
+          {it.delta && <div className="mt-1.5"><DeltaChip value={it.delta} direction="up" /></div>}
         </div>
       ))}
     </div>

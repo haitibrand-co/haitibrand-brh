@@ -52,7 +52,7 @@ export function VHierarchy({ lang }: { lang: Lang }) {
         }
       >
         {/* kargul-style segmented pill tabs INSIDE the card */}
-        <div className="mb-5">
+        <div className="mb-5 -mx-1 px-1 overflow-x-auto scroll-thin">
           <SegmentedTabs<Cut>
             value={cut}
             onChange={setCut}

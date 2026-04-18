@@ -34,7 +34,8 @@ export function ContentShell({
           <h1 className="text-[24px] md:text-[28px] xl:text-[32px] leading-tight text-ink font-medium">{title}</h1>
           {kicker && <p className="text-[14px] text-ink-2 mt-2">{kicker}</p>}
 
-          <div className="flex flex-wrap gap-2 mt-4">
+          {/* Filter chips — hidden on mobile (info lives in subtitle + view-level source footers), full row on ≥sm */}
+          <div className="hidden sm:flex flex-wrap gap-2 mt-4">
             <ChipDashed icon={<i className="ph ph-calendar-blank text-[16px]" />} label={lang === 'fr' ? 'Période' : 'Peryòd'} value="1998–2024" />
             <ChipDashed icon={<i className="ph ph-database text-[16px]" />} label={lang === 'fr' ? 'Source' : 'Sous'} value="IHSI · BRH · JobPaw" />
             <ChipDashed icon={<i className="ph ph-repeat text-[16px]" />} label={lang === 'fr' ? 'Fréquence' : 'Frekans'} value="Mensuelle" />

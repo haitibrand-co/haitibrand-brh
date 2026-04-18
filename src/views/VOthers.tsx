@@ -56,7 +56,27 @@ export function VRupture({ lang }: { lang: Lang }) {
       </Card>
 
       <Card title={L(v.timelineTitle, lang)} subtitle={lang === 'fr' ? 'Intensité codée 0–2 · 75 mois sur 136 enregistrent un choc positif' : 'Entansite kode 0–2 · 75 mwa sou 136 anrejistre yon chòk pozitif'}>
-        <div className="relative pt-10 pb-4">
+        {/* Mobile: vertical list with dot rail */}
+        <div className="sm:hidden relative pl-6">
+          <div className="absolute left-[7px] top-1 bottom-1 w-px bg-edge-strong" />
+          <div className="space-y-4">
+            {politicalShocks.map((e, i) => (
+              <div key={i} className="relative">
+                <div className="absolute -left-[22px] top-1 w-3.5 h-3.5 rounded-full bg-blue-700 ring-4 ring-blue-100" />
+                <div className="flex items-baseline justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-[14px] text-ink font-medium leading-tight">{e.label}</div>
+                    <div className="text-[12.5px] text-ink-2 tabular-nums mt-0.5">{e.date}</div>
+                  </div>
+                  <div className="text-[13px] text-blue-700 font-medium tabular-nums whitespace-nowrap">s = {e.intensity}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ≥sm: horizontal axis */}
+        <div className="hidden sm:block relative pt-10 pb-4">
           <div className="h-px bg-edge-strong" />
           <div className="flex justify-between mt-0 relative">
             {politicalShocks.map((e, i) => (
@@ -70,10 +90,10 @@ export function VRupture({ lang }: { lang: Lang }) {
             ))}
           </div>
         </div>
-        <div className="mt-5 pt-4 border-t border-edge flex items-center gap-4 text-[11.5px] text-ink-2">
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-700" /><strong className="text-ink font-medium tabular-nums">s = 2</strong> intensité maximale</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-300" /><strong className="text-ink font-medium tabular-nums">s = 1,5–1,8</strong> intensité élevée</span>
-          <span className="ml-auto">Codage narratif inspiré de Cerra &amp; Saxena (2008), Stock &amp; Watson (2018)</span>
+        <div className="mt-5 pt-4 border-t border-edge flex flex-wrap items-center gap-x-4 gap-y-2 text-[11.5px] text-ink-2">
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-700" /><strong className="text-ink font-medium tabular-nums">s = 2</strong> intensité max.</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-300" /><strong className="text-ink font-medium tabular-nums">s = 1,5–1,8</strong> élevée</span>
+          <span className="basis-full sm:basis-auto sm:ml-auto">Codage narratif · Cerra &amp; Saxena (2008), Stock &amp; Watson (2018)</span>
         </div>
       </Card>
 
@@ -279,10 +299,10 @@ export function VModel({ lang }: { lang: Lang }) {
   return (
     <div className="space-y-8">
       <Card title={lang === 'fr' ? 'Forme réduite de l\'inflation' : 'Fòm redui inflasyon an'} subtitle={lang === 'fr' ? 'Équation 6 — modèle partiel, deux secteurs' : 'Ekwasyon 6 — modèl pasyèl, de sektè'}>
-        <div className="py-6 text-center text-[22px] font-medium text-ink" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>
+        <div className="py-6 text-center text-[16px] sm:text-[20px] md:text-[22px] font-medium text-ink leading-relaxed overflow-x-auto scroll-thin" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>
           π<sub>t</sub> = ρ π<sub>t−1</sub> + α Δe<sub>t</sub> + <span className="text-blue-700">β s<sup>P</sup><sub>t</sub></span> + γ s<sup>F</sup><sub>t</sub> + μφ (n<sub>t</sub> − n̄) + ν<sub>t</sub>
         </div>
-        <div className="grid grid-cols-5 gap-3 mt-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-4">
           {[
             { t: 'Persistance',       v: 'ρ = 0,536',          contrib: 54 },
             { t: 'Taux de change',    v: 'α · Δe',             contrib: 22 },
@@ -307,7 +327,7 @@ export function VModel({ lang }: { lang: Lang }) {
               { t: 'Fiscal (γ s^F)',          pct: 5  },
               { t: 'Spirale (μφ (n−n̄))',      pct: 3  },
             ].map((c, i) => (
-              <div key={i} className="grid grid-cols-[160px_1fr_40px] items-center gap-3">
+              <div key={i} className="grid grid-cols-[130px_1fr_40px] sm:grid-cols-[160px_1fr_40px] items-center gap-3">
                 <span className="text-[12.5px] text-ink">{c.t}</span>
                 <div className="h-2 rounded-full bg-rail relative overflow-hidden">
                   <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${c.pct}%`, background: c.hi ? '#1D4ED8' : '#93C5FD' }} />
@@ -441,30 +461,32 @@ export function VData({ lang }: { lang: Lang }) {
 
       <Card title={lang === 'fr' ? 'Statistiques descriptives (Tableau 1)' : 'Estatistik deskriptif (Tablo 1)'}
             subtitle="Sept. 2014 – Déc. 2025">
-        <table className="w-full text-[12px]">
+       <div className="overflow-x-auto scroll-thin -mx-2">
+        <table className="w-full text-[12.5px] min-w-[560px]">
           <thead>
-            <tr className="text-ink-3 text-[12px] uppercase tracking-wide">
-              <th className="text-left font-medium py-2">Variable</th>
-              <th className="text-right font-medium">Obs.</th>
-              <th className="text-right font-medium">Moyenne</th>
-              <th className="text-right font-medium">Éc.-type</th>
-              <th className="text-right font-medium">Min</th>
-              <th className="text-right font-medium">Max</th>
+            <tr className="text-ink-2 text-[11.5px] uppercase tracking-wide">
+              <th className="text-left font-medium py-2 px-2 sticky left-0 bg-card">Variable</th>
+              <th className="text-right font-medium px-2">Obs.</th>
+              <th className="text-right font-medium px-2">Moyenne</th>
+              <th className="text-right font-medium px-2">Éc.-type</th>
+              <th className="text-right font-medium px-2">Min</th>
+              <th className="text-right font-medium px-2">Max</th>
             </tr>
           </thead>
           <tbody className="tabular-nums">
             {descriptive.map((r, i) => (
               <tr key={i} className="border-t border-edge">
-                <td className="py-2.5 text-ink">{r.variable}</td>
-                <td className="text-right text-ink-2">{r.n}</td>
-                <td className="text-right text-ink font-medium">{r.mean}</td>
-                <td className="text-right text-ink-2">{r.std}</td>
-                <td className="text-right text-ink-2">{r.min}</td>
-                <td className="text-right text-ink-2">{r.max}</td>
+                <td className="py-2.5 px-2 text-ink whitespace-nowrap sticky left-0 bg-card">{r.variable}</td>
+                <td className="text-right text-ink-2 px-2">{r.n}</td>
+                <td className="text-right text-ink font-medium px-2">{r.mean}</td>
+                <td className="text-right text-ink-2 px-2">{r.std}</td>
+                <td className="text-right text-ink-2 px-2">{r.min}</td>
+                <td className="text-right text-ink-2 px-2">{r.max}</td>
               </tr>
             ))}
           </tbody>
         </table>
+       </div>
       </Card>
     </div>
   );
