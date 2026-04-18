@@ -8,10 +8,10 @@ export function CandleLine({ height = 260 }: { height?: number }) {
   return (
     <div style={{ width: '100%', height }}>
       <ResponsiveContainer>
-        <ComposedChart data={candleData} margin={{ left: 8, right: 16, top: 12, bottom: 20 }}>
+        <ComposedChart data={candleData} margin={{ left: 4, right: 12, top: 12, bottom: 20 }}>
           <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 4" vertical={false} />
           <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} tickFormatter={(v) => v.slice(0,4)} interval="preserveStartEnd" minTickGap={48} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={36} unit="%" />
+          <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={48} unit="%" tickFormatter={(v:number) => v.toFixed(2)} />
           <ReferenceLine y={0} stroke="#CBD5E1" />
           <ReferenceLine x="2018-07" stroke="#DC2626" strokeDasharray="4 4" label={{ value: 'Peyi Lock', position: 'insideTopRight', fontSize: 12, fill: '#DC2626' }} />
           <Bar dataKey="inflation" barSize={3} isAnimationActive={true} animationDuration={900} animationEasing="ease-out">

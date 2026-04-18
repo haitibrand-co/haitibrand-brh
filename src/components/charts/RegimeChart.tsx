@@ -33,7 +33,7 @@ export function RegimeChart({ height = 340 }: { height?: number }) {
 
       <div style={{ width: '100%', height }}>
         <ResponsiveContainer>
-          <ComposedChart data={data} margin={{ left: 4, right: 82, top: 18, bottom: 20 }}>
+          <ComposedChart data={data} margin={{ left: 4, right: 82, top: 36, bottom: 20 }}>
             <defs>
               <linearGradient id="postFade" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0" stopColor="#1D4ED8" stopOpacity="0.18" />
@@ -43,7 +43,17 @@ export function RegimeChart({ height = 340 }: { height?: number }) {
             <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 4" vertical={false} />
             <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} tickFormatter={(v) => v.slice(0,4)} interval="preserveStartEnd" minTickGap={48} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={36} />
-            <ReferenceLine x={ruptureDate} stroke="#DC2626" strokeDasharray="4 4" label={{ value: 'Juil. 2018 · Peyi Lock', position: 'insideTop', fontSize: 12, fill: '#DC2626', offset: 8 }} />
+            <ReferenceLine x={ruptureDate} stroke="#DC2626" strokeDasharray="4 4" label={(props: any) => {
+              const { viewBox } = props;
+              const lx = viewBox.x - 6;
+              const ly = viewBox.y + 4;
+              return (
+                <text x={lx} y={ly} textAnchor="end" fontSize={12} fill="#DC2626" fontWeight={500}>
+                  <tspan x={lx} dy="0">Juil. 2018</tspan>
+                  <tspan x={lx} dy="14">Peyi Lock</tspan>
+                </text>
+              );
+            }} />
 
             <Area type="monotone" dataKey="ipcPost" stroke="none" fill="url(#postFade)" isAnimationActive={true} animationDuration={900} animationEasing="ease-out" />
 
