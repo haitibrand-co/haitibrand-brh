@@ -4,6 +4,7 @@ import { QuestionRail } from './components/layout/QuestionRail';
 import { ContentShell } from './components/layout/ContentShell';
 import type { Lang } from './data/i18n';
 import { L, t } from './data/i18n';
+import { paper } from './data/paper';
 import { VHero } from './views/VHero';
 import { VHierarchy } from './views/VHierarchy';
 import { VTradable } from './views/VTradable';
@@ -89,15 +90,16 @@ function App() {
 
       <div className="flex-1 flex flex-col min-w-0">
         {isCompact && (
-          <div className="bg-card border-b border-edge px-4 sm:px-5 py-2.5 flex items-center gap-3 sticky top-0 z-20">
+          <div className="bg-card border-b border-edge px-4 py-2.5 flex items-center justify-between gap-3 sticky top-0 z-20">
             <button
               onClick={() => setRailOpen(true)}
+              aria-label={lang === 'fr' ? 'Ouvrir les questions' : 'Louvri kesyon yo'}
               className="inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-edge bg-page text-[13px] text-ink font-medium hover:bg-hover min-h-[40px]"
             >
               <i className="ph-bold ph-list text-[16px]" />
               {lang === 'fr' ? 'Questions' : 'Kesyon'}
             </button>
-            <span className="text-[12.5px] text-ink-2 truncate flex-1">{label}</span>
+            <span className="text-[11px] uppercase tracking-[0.08em] text-ink-2 font-medium tabular-nums">{paper.id}</span>
           </div>
         )}
 
