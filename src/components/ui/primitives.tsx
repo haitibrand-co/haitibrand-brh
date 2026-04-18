@@ -93,7 +93,7 @@ export function StatCard({
 /** Stat strip (Pipesale) — 5 KPIs inline with soft dividers */
 export function StatStrip({ items }: { items: { label: string; whole: string; fraction?: string; unit?: string; delta?: string; tip?: string; compare?: string; iconColor?: string; icon?: string; deltaTone?: 'neutral' | 'positive' | 'negative'; deltaIcon?: string }[] }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-3">
       {items.map((it, i) => {
         const dot = it.iconColor ?? '#1D4ED8';
         const icon = it.icon ?? 'ph-trend-up';
@@ -102,8 +102,8 @@ export function StatStrip({ items }: { items: { label: string; whole: string; fr
         const dIcon = it.deltaIcon ?? (tone === 'positive' ? 'ph-trend-up' : tone === 'negative' ? 'ph-trend-up' : 'ph-arrow-right');
         return (
           <div key={i} className="bg-card rounded-[16px] border border-edge px-5 py-4 min-w-0 flex flex-col gap-3">
-            <div className="text-[14px] font-medium text-ink leading-tight">{it.label}</div>
-            <div className="flex items-start gap-2.5 min-w-0">
+            <div className="text-[14px] font-medium text-ink leading-tight min-h-[20px]">{it.label}</div>
+            <div className="flex items-start gap-2.5 min-w-0 flex-1">
               <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: dot }}>
                 <i className={`ph-bold ${icon} text-[13px] text-white`} />
               </span>

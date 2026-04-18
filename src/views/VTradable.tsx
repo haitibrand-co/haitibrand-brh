@@ -100,10 +100,10 @@ export function VTradable({ lang }: { lang: Lang }) {
       >
         {(() => {
           const nodes = [
-            { label: 'Instabilité politique', sub: 's = 2 au pic',       tone: 'blue-700' },
-            { label: 'Fuite de capitaux',     sub: '−7,1 M USD/mois',    tone: 'blue-500' },
-            { label: 'Dépréciation HTG',      sub: '+40 %/an post-2018', tone: 'blue-500' },
-            { label: 'Prix des importés ↑',   sub: '+5,59 % IPC',        tone: 'negative' },
+            { label: 'Instabilité politique', sub: 'choc s^P',                    tone: 'blue-700' },
+            { label: 'Fuite de capitaux',     sub: 'canal α_T (pass-through)',    tone: 'blue-500' },
+            { label: 'Dépréciation HTG',      sub: 'α_T > α_NT',                  tone: 'blue-500' },
+            { label: 'Prix des importés ↑',   sub: '+5,59 % IPC · t = 1,97',      tone: 'negative' },
           ];
           const tone = (t: string) =>
             t === 'blue-700' ? 'bg-blue-700 text-white' :

@@ -177,60 +177,45 @@ export function VDistribution({ lang }: { lang: Lang }) {
         </StatHeaderCard>
 
         <StatHeaderCard
-          label={lang === 'fr' ? 'Catégories extrêmes' : 'Kategori ekstrèm'}
-          value="×6,2"
-          unit={lang === 'fr' ? 'Carburants · top croissance' : 'Gaz · pi gwo kwasans'}
-          meta={lang === 'fr' ? '2018 → 2023' : '2018 → 2023'}
+          label={lang === 'fr' ? 'Hétérogénéité des prix' : 'Etewojenete pri yo'}
+          value="693"
+          unit={lang === 'fr' ? 'maximum IPC · catégorie la plus exposée' : 'maksimòm IPC · kategori ki pi ekspoze'}
+          meta={lang === 'fr' ? '2023 · 156 catégories' : '2023 · 156 kategori'}
         >
-          {(() => {
-            const topRows = [
-              { label: 'Carburants',           mult: 6.2 },
-              { label: 'Produits laitiers',    mult: 5.4 },
-              { label: 'Céréales importées',   mult: 4.8 },
-              { label: 'Huiles alimentaires',  mult: 4.3 },
-              { label: 'Viande importée',      mult: 3.9 },
-            ];
-            const botRows = [
-              { label: 'Loyer résidentiel',    mult: 1.9 },
-              { label: 'Services domestiques', mult: 1.7 },
-              { label: 'Transport local',      mult: 1.6 },
-              { label: 'Éducation',            mult: 1.5 },
-              { label: 'Santé',                mult: 1.4 },
-            ];
-            const max = 6.5;
-            const Row = ({ label, mult, hot }: { label: string; mult: number; hot: boolean }) => (
-              <div className="grid grid-cols-[120px_1fr_44px] items-center gap-3">
-                <span className={`text-[12px] truncate ${hot ? 'text-ink' : 'text-ink-2'}`}>{label}</span>
-                <div className="h-2 relative">
-                  <div className="absolute inset-y-0 left-0 right-0 rounded-full bg-rail" />
-                  <div
-                    className="absolute inset-y-0 left-0 rounded-full"
-                    style={{ width: `${(mult / max) * 100}%`, background: hot ? '#1D4ED8' : '#93C5FD' }}
-                  />
-                  <span
-                    className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full ring-2 ring-white"
-                    style={{ left: `calc(${(mult / max) * 100}% - 6px)`, background: hot ? '#1D4ED8' : '#93C5FD' }}
-                  />
-                </div>
-                <span className={`text-[13px] font-medium tabular-nums text-right ${hot ? 'text-blue-700' : 'text-ink-2'}`}>×{mult.toFixed(1)}</span>
+          <div className="space-y-4">
+            <div>
+              <div className="flex items-baseline justify-between mb-2">
+                <span className="text-[13.5px] font-medium text-ink">{lang === 'fr' ? 'Moyenne' : 'Mwayèn'}</span>
+                <span className="text-[13.5px] tabular-nums text-ink-2">326</span>
               </div>
-            );
-            return (
-              <div>
-                <div className="space-y-2.5">
-                  {topRows.map((r, i) => <Row key={i} {...r} hot />)}
-                </div>
-                <div className="my-4 flex items-center gap-3 text-[12.5px] text-ink-2">
-                  <div className="flex-1 border-t border-dashed border-edge-strong" />
-                  <span>146 autres catégories</span>
-                  <div className="flex-1 border-t border-dashed border-edge-strong" />
-                </div>
-                <div className="space-y-2.5">
-                  {botRows.map((r, i) => <Row key={i} {...r} hot={false} />)}
-                </div>
+              <div className="h-2.5 rounded-full bg-rail overflow-hidden">
+                <div className="h-full rounded-full bg-blue-300" style={{ width: `${(326/693)*100}%` }} />
               </div>
-            );
-          })()}
+            </div>
+            <div>
+              <div className="flex items-baseline justify-between mb-2">
+                <span className="text-[13.5px] font-medium text-ink">{lang === 'fr' ? 'Médiane' : 'Medyàn'}</span>
+                <span className="text-[13.5px] tabular-nums text-ink-2">~240</span>
+              </div>
+              <div className="h-2.5 rounded-full bg-rail overflow-hidden">
+                <div className="h-full rounded-full bg-blue-300" style={{ width: `${(240/693)*100}%` }} />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-baseline justify-between mb-2">
+                <span className="text-[13.5px] font-medium text-ink">{lang === 'fr' ? 'Maximum (queue droite)' : 'Maksimòm (ke dwat)'}</span>
+                <span className="text-[13.5px] tabular-nums text-blue-700 font-medium">693</span>
+              </div>
+              <div className="h-2.5 rounded-full bg-rail overflow-hidden">
+                <div className="h-full rounded-full bg-blue-700" style={{ width: '100%' }} />
+              </div>
+            </div>
+          </div>
+          <p className="text-[13px] text-ink-2 leading-relaxed mt-5">
+            {lang === 'fr'
+              ? 'L\'écart entre moyenne et maximum s\'élargit : la hausse n\'est pas uniforme. Le papier attribue cette asymétrie à des chocs sectoriels ou idiosyncratiques (§4.4).'
+              : 'Ekat ant mwayèn ak maksimòm lan ap grandi : ogmantasyon an pa inifòm. Papye a atribye asymetri sa a bay chòk sektoryèl oswa idyosenkratik (§4.4).'}
+          </p>
         </StatHeaderCard>
       </div>
     </div>
@@ -268,6 +253,9 @@ export function VLabor({ lang }: { lang: Lang }) {
           { label: lang === 'fr' ? 'Année normale' : 'Ane nòmal', color: '#93C5FD' },
         ]} />
         <div className="mt-3"><JobPawAnnual height={220} /></div>
+        <div className="mt-3 text-[11.5px] text-ink-2">
+          {lang === 'fr' ? 'Reconstitué d\'après la Figure 9 du papier (§7).' : 'Rekonstitye dapre Figi 9 papye a (§7).'}
+        </div>
       </StatHeaderCard>
 
       {/* 3. Active Automations pattern — split pill bar */}
@@ -346,28 +334,31 @@ export function VModel({ lang }: { lang: Lang }) {
             </div>
           ))}
         </div>
-        {/* Term contribution bar chart */}
+        {/* Paper-backed ranking: IRF peaks from Table 2 (p. 11) */}
         <div className="mt-6 pt-5 border-t border-edge">
-          <div className="text-[12px] text-ink-2 uppercase tracking-[0.06em] mb-3 font-medium">Contribution relative à l'inflation cumulative (à h=24)</div>
+          <div className="text-[12px] text-ink-2 uppercase tracking-[0.06em] mb-3 font-medium">{lang === 'fr' ? 'Hiérarchie empirique des chocs (IPC agrégé, h=24)' : 'Yerachi anpirik chòk yo (IPC agregat, h=24)'}</div>
           <div className="space-y-2.5">
             {[
-              { t: 'Politique (β s^P)',      pct: 62, hi: true },
-              { t: 'Persistance (ρ π_{t−1})', pct: 19 },
-              { t: 'Taux de change (α Δe)',  pct: 11 },
-              { t: 'Fiscal (γ s^F)',          pct: 5  },
-              { t: 'Spirale (μφ (n−n̄))',      pct: 3  },
-            ].map((c, i) => (
-              <div key={i} className="grid grid-cols-[130px_1fr_40px] sm:grid-cols-[160px_1fr_40px] items-center gap-3">
-                <span className="text-[12.5px] text-ink">{c.t}</span>
-                <div className="h-2 rounded-full bg-rail relative overflow-hidden">
-                  <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${c.pct}%`, background: c.hi ? '#1D4ED8' : '#93C5FD' }} />
+              { t: lang === 'fr' ? 'Choc politique (β s^P)' : 'Chòk politik (β s^P)', pct: 4.93, sig: 'p<0,10', hi: true },
+              { t: lang === 'fr' ? 'Choc fiscal (γ s^F)'    : 'Chòk fiskal (γ s^F)',   pct: 1.42, sig: 'n.s.' },
+              { t: lang === 'fr' ? 'Marché du travail (μφ)' : 'Mache travay (μφ)',     pct: 0.90, sig: 'n.s.' },
+            ].map((c, i) => {
+              const max = 5;
+              return (
+                <div key={i} className="grid grid-cols-[160px_1fr_72px] sm:grid-cols-[200px_1fr_80px] items-center gap-3">
+                  <span className="text-[12.5px] text-ink">{c.t}</span>
+                  <div className="h-2 rounded-full bg-rail relative overflow-hidden">
+                    <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${(c.pct/max)*100}%`, background: c.hi ? '#1D4ED8' : '#93C5FD' }} />
+                  </div>
+                  <span className={`text-[12.5px] tabular-nums text-right ${c.hi ? 'text-blue-700 font-medium' : 'text-ink-2'}`}>+{c.pct.toFixed(2).replace('.', ',')}% · {c.sig}</span>
                 </div>
-                <span className={`text-[12.5px] tabular-nums text-right ${c.hi ? 'text-blue-700 font-medium' : 'text-ink-2'}`}>{c.pct}%</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="mt-4 text-[11.5px] text-ink-2">
-            Décomposition approximative via la forme réduite (équation 6). Robustesse confirmée sur sous-échantillons 2014–2019 et 2019–2025 (§5.5 du papier).
+            {lang === 'fr'
+              ? 'Source : Table 2 du papier (Projections locales Jordà 2005, erreurs-types HAC Newey–West, 120 observations). La persistance ρ̂=0,536 amplifie chaque choc par un multiplicateur de long terme de 2,15.'
+              : 'Sous : Tablo 2 nan papye a (Pwojeksyon lokal Jordà 2005, erè-tip HAC Newey–West, 120 obsèvasyon). Pèsistans ρ̂=0,536 amplifye chak chòk pa yon miltiplikatè long tèm 2,15.'}
           </div>
         </div>
       </StatHeaderCard>
@@ -421,8 +412,9 @@ export function VPolicy({ lang }: { lang: Lang }) {
             <p className="text-[14px] text-ink-2 leading-relaxed mb-4">{r.body}</p>
             <div className="text-[12px] text-ink-2 uppercase tracking-[0.06em] mb-1.5">Preuve empirique</div>
             <div className="text-[13px] text-ink font-medium tabular-nums">{r.evidence}</div>
-            {/* Impact / Faisabilité / Horizon — stacked rows, label left / value right, no wrap */}
+            {/* Impact / Faisabilité / Horizon — editorial reading, clearly labelled */}
             <div className="mt-auto pt-5 border-t border-edge space-y-2.5">
+              <div className="text-[11px] text-ink-3 uppercase tracking-[0.06em] mb-1.5">{lang === 'fr' ? 'Lecture HBR · non-papier' : 'Lekti HBR · pa-papye'}</div>
               <div className="flex items-baseline justify-between gap-4">
                 <span className="text-[12px] text-ink-2 uppercase tracking-[0.06em]">Impact</span>
                 <span className="text-[13.5px] text-ink font-medium text-right">{r.impact}</span>

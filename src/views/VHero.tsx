@@ -59,7 +59,7 @@ export function VHero({ lang }: { lang: Lang }) {
         label={lang === 'fr' ? 'Inflation mensuelle' : 'Inflasyon chak mwa'}
         value="1,58%"
         unit={lang === 'fr' ? 'moy. · σ = 1,33' : 'mwayèn · σ = 1,33'}
-        meta={lang === 'fr' ? 'Pic · 10,99% · Sept. 2021' : 'Pik · 10,99% · Sept. 2021'}
+        meta={lang === 'fr' ? 'Pic · 10,99% · Tableau 1' : 'Pik · 10,99% · Tablo 1'}
       >
         <div className="mb-3"><CandleLineLegend /></div>
         <CandleLine height={260} />
