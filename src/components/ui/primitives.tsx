@@ -103,13 +103,13 @@ export function StatStrip({ items }: { items: { label: string; whole: string; fr
         return (
           <div key={i} className="bg-card rounded-[16px] border border-edge px-5 py-4 min-w-0 flex flex-col gap-3">
             <div className="text-[14px] font-medium text-ink leading-tight min-h-[20px]">{it.label}</div>
-            <div className="flex items-start gap-2.5 min-w-0 flex-1">
-              <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: dot }}>
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: dot }}>
                 <i className={`ph-bold ${icon} text-[13px] text-white`} />
               </span>
-              <div className="flex flex-col gap-0.5 tabular-nums min-w-0 flex-1">
+              <div className="flex items-baseline gap-1.5 tabular-nums min-w-0 flex-wrap">
                 <span className="text-[22px] font-semibold text-ink leading-none whitespace-nowrap">{it.whole}{it.fraction && <span>,{it.fraction}</span>}</span>
-                {it.unit && <span className="text-[13px] text-ink-2 font-normal leading-snug break-words">{it.unit}</span>}
+                {it.unit && <span className="text-[14px] text-ink-2 font-normal leading-none whitespace-nowrap">{it.unit}</span>}
               </div>
             </div>
             <div className="flex items-center justify-between text-[12px] text-ink-2 mt-auto">
