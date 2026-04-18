@@ -7,7 +7,7 @@ export function JobPawAnnual({ height = 220 }: { height?: number }) {
   return (
     <div style={{ width: '100%', height }}>
       <ResponsiveContainer>
-        <ComposedChart data={jobpawAnnual} margin={{ left: 8, right: 16, top: 16, bottom: 20 }}>
+        <ComposedChart data={jobpawAnnual} margin={{ left: 8, right: 16, top: 32, bottom: 20 }}>
           <defs>
             <linearGradient id="jpFade" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0" stopColor="#1D4ED8" stopOpacity="0.18" />
