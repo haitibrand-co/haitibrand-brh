@@ -103,8 +103,8 @@ function App() {
         </div>
       </div>
 
-      {/* Mobile bottom action bar — thumb-reach nav + download */}
-      {isNarrow && (
+      {/* Compact+mobile bottom action bar — always provides access to Questions when rail is hidden */}
+      {isCompact && (
         <div
           className="fixed bottom-0 inset-x-0 z-30 bg-card border-t border-edge flex gap-2 px-4 pt-3"
           style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 10px)' }}
