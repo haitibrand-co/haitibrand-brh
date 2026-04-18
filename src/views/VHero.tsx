@@ -60,8 +60,8 @@ export function VHero({ lang }: { lang: Lang }) {
         </Card>
 
         <Card title={lang === 'fr' ? 'Taux de réplication' : 'To repetisyon'} subtitle={lang === 'fr' ? 'Persistance ρ̂ = 0,536' : 'Pèsistans ρ̂ = 0,536'} className="flex flex-col">
-          {/* Middle — big number */}
-          <div className="flex-1 flex flex-col items-center justify-center py-4">
+          {/* Middle — big number, locked left */}
+          <div className="flex-1 flex flex-col justify-center py-4">
             <div className="flex items-baseline gap-2">
               <span className="text-[48px] font-medium tabular-nums text-ink leading-none">2,15</span>
               <span className="text-[13px] text-ink-2">× multiplicateur</span>
