@@ -31,15 +31,7 @@ export function ContentShell({
         </div>
 
         <div className="px-5 md:px-8 pt-5 sm:pt-6 pb-5 sm:pb-6">
-          <div className="flex items-start justify-between gap-3">
-            <h1 className="text-[22px] sm:text-[26px] md:text-[28px] xl:text-[32px] leading-tight text-ink font-medium min-w-0">{title}</h1>
-            {/* Mobile PDF button floats beside title for quick access */}
-            <a href={paper.pdfUrl} download="BRH-WP-2026-01.pdf"
-               className="sm:hidden shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-[10px] bg-ink text-white text-[12.5px] font-medium hover:bg-blue-900 transition whitespace-nowrap">
-              <i className="ph ph-download-simple text-[14px]" />
-              PDF
-            </a>
-          </div>
+          <h1 className="text-[22px] sm:text-[26px] md:text-[28px] xl:text-[32px] leading-tight text-ink font-medium">{title}</h1>
           {kicker && <p className="text-[13.5px] sm:text-[14px] text-ink-2 mt-2 leading-relaxed">{kicker}</p>}
 
           {/* Filter chips — hidden on mobile (info lives in subtitle + view-level source footers), full row on ≥sm */}
@@ -51,7 +43,7 @@ export function ContentShell({
         </div>
       </header>
 
-      <div className="px-5 md:px-8 py-6 pb-24">{children}</div>
+      <div className="px-5 md:px-8 py-6 pb-[calc(env(safe-area-inset-bottom,0px)+96px)] sm:pb-24">{children}</div>
 
       <footer className="px-5 md:px-8 py-[32px] border-t border-edge text-[13px] text-ink-2 flex items-center">
         Banque de la République d'Haïti · DREF · {paper.id} · {paper.date} · <span className="underline decoration-dotted ml-1">brh.ht</span>

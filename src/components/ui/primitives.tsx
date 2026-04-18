@@ -325,14 +325,14 @@ export function Card({ title, subtitle, right, children, className = '' }: {
   title?: string; subtitle?: string; right?: React.ReactNode; children: React.ReactNode; className?: string;
 }) {
   return (
-    <section className={`bg-card rounded-[16px] border border-edge p-6 md:p-7 ${className}`}>
+    <section className={`bg-card rounded-[16px] border border-edge p-5 sm:p-6 md:p-7 ${className}`}>
       {(title || right) && (
-        <header className="flex items-start justify-between mb-5 md:mb-6">
-          <div>
+        <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-5 md:mb-6">
+          <div className="min-w-0">
             {title && <h3 className="text-[17px] font-medium leading-tight">{title}</h3>}
             {subtitle && <p className="text-[13px] text-ink-2 mt-1.5 leading-relaxed">{subtitle}</p>}
           </div>
-          {right}
+          {right && <div className="shrink-0">{right}</div>}
         </header>
       )}
       {children}

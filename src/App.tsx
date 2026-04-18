@@ -89,26 +89,37 @@ function App() {
       )}
 
       <div className="flex-1 flex flex-col min-w-0">
-        {isCompact && (
-          <div className="bg-card border-b border-edge px-4 py-2.5 flex items-center justify-between gap-3 sticky top-0 z-20">
-            <button
-              onClick={() => setRailOpen(true)}
-              aria-label={lang === 'fr' ? 'Ouvrir les questions' : 'Louvri kesyon yo'}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-edge bg-page text-[13px] text-ink font-medium hover:bg-hover min-h-[40px]"
-            >
-              <i className="ph-bold ph-list text-[16px]" />
-              {lang === 'fr' ? 'Questions' : 'Kesyon'}
-            </button>
-            <span className="text-[11px] uppercase tracking-[0.08em] text-ink-2 font-medium tabular-nums">{paper.id}</span>
-          </div>
-        )}
-
         <ContentShell lang={lang} activeLabel={label} title={title} kicker={kicker} onNavigate={onPick}>
           <div key={active} className="view-enter">
             <View lang={lang} />
           </div>
         </ContentShell>
       </div>
+
+      {/* Mobile bottom action bar — thumb-reach nav + download */}
+      {isNarrow && (
+        <div
+          className="fixed bottom-0 inset-x-0 z-30 bg-card border-t border-edge flex gap-2 px-4 pt-3"
+          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 10px)' }}
+        >
+          <button
+            onClick={() => setRailOpen(true)}
+            aria-label={lang === 'fr' ? 'Ouvrir les questions' : 'Louvri kesyon yo'}
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 rounded-[12px] bg-ink text-white text-[14px] font-medium hover:bg-blue-900 transition min-h-[48px]"
+          >
+            <i className="ph-bold ph-list text-[16px]" />
+            {lang === 'fr' ? 'Questions' : 'Kesyon'}
+          </button>
+          <a
+            href={paper.pdfUrl}
+            download="BRH-WP-2026-01.pdf"
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 rounded-[12px] border border-edge bg-card text-ink text-[14px] font-medium hover:bg-hover transition min-h-[48px]"
+          >
+            <i className="ph-bold ph-download-simple text-[16px]" />
+            PDF
+          </a>
+        </div>
+      )}
     </div>
   );
 }
