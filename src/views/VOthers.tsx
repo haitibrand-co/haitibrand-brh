@@ -227,10 +227,13 @@ export function VLabor({ lang }: { lang: Lang }) {
 
       <Card title={L(v.annualTitle, lang)} subtitle={lang === 'fr' ? '14 909 offres · base construite par ML' : '14 909 òf · baz konstwi ak ML'}>
         <JobPawAnnual height={240} />
-        <div className="mt-4 p-4 rounded-[10px] bg-blue-50 flex items-start gap-3 text-[13px] leading-relaxed">
-          <i className="ph-bold ph-info text-[16px] mt-0.5 shrink-0 text-ink" />
+        <div className="mt-4 -mx-1 sm:mx-0 px-3.5 sm:px-4 py-3 sm:py-4 rounded-[10px] bg-blue-50 text-[13px] leading-relaxed">
           <span className="text-ink-2">
-            <strong className="font-medium text-ink">Portée de l'échantillon&nbsp;:</strong> JobPaw couvre l'emploi formel annoncé en ligne (ONG 46 %, public 28 %, privé 19 %). L'emploi informel, qui représente plus de 80 % du marché du travail haïtien, n'est pas capturé. Les tendances reflètent donc le segment formel&nbsp;; elles sont un indicateur, non une mesure exhaustive.
+            <strong className="inline-flex items-center gap-1.5 font-medium text-ink mr-1 align-baseline">
+              <i className="ph-bold ph-info text-[15px]" />
+              Portée de l'échantillon&nbsp;:
+            </strong>
+            JobPaw couvre l'emploi formel annoncé en ligne (ONG 46 %, public 28 %, privé 19 %). L'emploi informel, qui représente plus de 80 % du marché du travail haïtien, n'est pas capturé. Les tendances reflètent donc le segment formel&nbsp;; elles sont un indicateur, non une mesure exhaustive.
           </span>
         </div>
       </Card>
@@ -247,35 +250,27 @@ export function VLabor({ lang }: { lang: Lang }) {
 
       <Card title={L(v.asymTitle, lang)} subtitle={lang === 'fr' ? 'Réponse des biens au choc du marché du travail' : 'Repons byen yo a chòk mache travay la'}>
         <div className="space-y-6">
-          {/* Non-échangeables (leading — this is the bigger response) */}
-          <div>
-            <div className="flex items-baseline justify-between mb-2">
-              <div>
-                <span className="text-[13.5px] font-medium text-ink">{lang === 'fr' ? 'Non-échangeables' : 'Non-echanjab'}</span>
-                <span className="text-[12.5px] text-ink-2 ml-2">41 catégories · t = 1,42</span>
+          {[
+            { label: lang === 'fr' ? 'Non-échangeables' : 'Non-echanjab', meta: '41 catégories · t = 1,42', value: '+1,59%', width: 100, tone: 'bg-blue-700' },
+            { label: lang === 'fr' ? 'Échangeables'     : 'Echanjab',     meta: '115 catégories · t = 1,55', value: '+0,92%', width: (0.92 / 1.59) * 100, tone: 'bg-blue-300' },
+          ].map((r, i) => (
+            <div key={i}>
+              {/* Mobile: value on top, label + meta stacked below. Desktop: inline as before. */}
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 sm:gap-3 mb-2">
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 order-2 sm:order-1">
+                  <span className="text-[14px] sm:text-[13.5px] font-medium text-ink">{r.label}</span>
+                  <span className="text-[12px] sm:text-[12.5px] text-ink-2 tabular-nums">{r.meta}</span>
+                </div>
+                <span className="text-[26px] sm:text-[22px] font-medium tabular-nums text-ink leading-none order-1 sm:order-2">{r.value}</span>
               </div>
-              <span className="text-[22px] font-medium tabular-nums text-ink leading-none">+1,59%</span>
-            </div>
-            <div className="h-2.5 rounded-full bg-rail relative overflow-hidden">
-              <div className="absolute inset-y-0 left-0 rounded-full bg-blue-700" style={{ width: '100%' }} />
-            </div>
-          </div>
-          {/* Échangeables (smaller) */}
-          <div>
-            <div className="flex items-baseline justify-between mb-2">
-              <div>
-                <span className="text-[13.5px] font-medium text-ink">{lang === 'fr' ? 'Échangeables' : 'Echanjab'}</span>
-                <span className="text-[12.5px] text-ink-2 ml-2">115 catégories · t = 1,55</span>
+              <div className="h-2.5 rounded-full bg-rail relative overflow-hidden">
+                <div className={`absolute inset-y-0 left-0 rounded-full ${r.tone}`} style={{ width: `${r.width}%` }} />
               </div>
-              <span className="text-[22px] font-medium tabular-nums text-ink leading-none">+0,92%</span>
             </div>
-            <div className="h-2.5 rounded-full bg-rail relative overflow-hidden">
-              <div className="absolute inset-y-0 left-0 rounded-full bg-blue-300" style={{ width: `${(0.92 / 1.59) * 100}%` }} />
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="mt-6 pt-5 border-t border-edge flex items-start gap-3">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[13px] font-medium tabular-nums shrink-0">
+        <div className="mt-6 pt-5 border-t border-edge flex flex-col sm:flex-row sm:items-start gap-3">
+          <span className="self-start inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[13px] font-medium tabular-nums shrink-0">
             <i className="ph-bold ph-arrows-horizontal text-[13px]" />
             1,73× écart
           </span>

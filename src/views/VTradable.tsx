@@ -83,30 +83,59 @@ export function VTradable({ lang }: { lang: Lang }) {
       </Card>
 
       <Card title={L(v.passThru, lang)} subtitle={lang === 'fr' ? 'Mécanisme de transmission avec magnitudes empiriques' : 'Mekanism transmisyon ak mayitid anpirik'}>
-        <div className="flex items-center gap-2 flex-wrap">
-          {[
-            { label: 'Instabilité politique', sub: 's = 2 au pic',      tone: 'blue-700' },
-            { label: 'Fuite de capitaux',     sub: '−7,1 M USD/mois',   tone: 'blue-500' },
+        {(() => {
+          const nodes = [
+            { label: 'Instabilité politique', sub: 's = 2 au pic',       tone: 'blue-700' },
+            { label: 'Fuite de capitaux',     sub: '−7,1 M USD/mois',    tone: 'blue-500' },
             { label: 'Dépréciation HTG',      sub: '+40 %/an post-2018', tone: 'blue-500' },
             { label: 'Prix des importés ↑',   sub: '+5,59 % IPC',        tone: 'negative' },
-          ].map((n, i, arr) => (
-            <div key={i} className="flex items-center">
-              <div className={`px-3.5 py-2.5 rounded-[10px] ${
-                n.tone === 'blue-700' ? 'bg-blue-700 text-white' :
-                n.tone === 'blue-500' ? 'bg-blue-100 text-blue-900' :
-                'bg-negative-bg text-negative'
-              }`}>
-                <div className="text-[13px] font-medium leading-tight">{n.label}</div>
-                <div className={`text-[11.5px] leading-tight mt-1 tabular-nums ${
-                  n.tone === 'blue-700' ? 'text-blue-100' :
-                  n.tone === 'blue-500' ? 'text-blue-700/80' :
-                  'text-negative/80'
-                }`}>{n.sub}</div>
+          ];
+          const tone = (t: string) =>
+            t === 'blue-700' ? 'bg-blue-700 text-white' :
+            t === 'blue-500' ? 'bg-blue-100 text-blue-900' :
+            'bg-negative-bg text-negative';
+          const subTone = (t: string) =>
+            t === 'blue-700' ? 'text-blue-100' :
+            t === 'blue-500' ? 'text-blue-700/80' :
+            'text-negative/80';
+          return (
+            <>
+              {/* Mobile: vertical chain — full-width steps, numbered, down-caret between */}
+              <div className="sm:hidden flex flex-col">
+                {nodes.map((n, i) => (
+                  <div key={i}>
+                    <div className="flex items-center gap-3">
+                      <div className="shrink-0 w-7 h-7 rounded-full bg-rail text-ink-2 inline-flex items-center justify-center text-[11px] font-medium tabular-nums">{i + 1}</div>
+                      <div className={`flex-1 px-4 py-3 rounded-[12px] ${tone(n.tone)}`}>
+                        <div className="text-[14px] font-medium leading-tight">{n.label}</div>
+                        <div className={`text-[12px] leading-tight mt-1 tabular-nums ${subTone(n.tone)}`}>{n.sub}</div>
+                      </div>
+                    </div>
+                    {i < nodes.length - 1 && (
+                      <div className="flex flex-col items-center my-1" style={{ paddingLeft: '14px' }}>
+                        <div className="w-px h-3 bg-edge-strong" />
+                        <i className="ph-bold ph-caret-down text-[11px] text-ink-3 -mt-0.5" />
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-              {i < arr.length - 1 && <i className="ph-bold ph-arrow-right text-[16px] text-ink-2 mx-1.5" />}
-            </div>
-          ))}
-        </div>
+
+              {/* ≥sm: horizontal chain (unchanged) */}
+              <div className="hidden sm:flex items-center gap-2 flex-wrap">
+                {nodes.map((n, i, arr) => (
+                  <div key={i} className="flex items-center">
+                    <div className={`px-3.5 py-2.5 rounded-[10px] ${tone(n.tone)}`}>
+                      <div className="text-[13px] font-medium leading-tight">{n.label}</div>
+                      <div className={`text-[11.5px] leading-tight mt-1 tabular-nums ${subTone(n.tone)}`}>{n.sub}</div>
+                    </div>
+                    {i < arr.length - 1 && <i className="ph-bold ph-arrow-right text-[16px] text-ink-2 mx-1.5" />}
+                  </div>
+                ))}
+              </div>
+            </>
+          );
+        })()}
         <div className="mt-5 pt-4 border-t border-edge text-[11.5px] text-ink-2">
           Source&nbsp;: BRH (flux nets de change, taux de change HTG/USD) · IHSI (IPC échangeables) · Propositions 1 &amp; 2 du modèle §6.
         </div>

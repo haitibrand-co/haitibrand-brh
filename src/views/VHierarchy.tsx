@@ -52,14 +52,14 @@ export function VHierarchy({ lang }: { lang: Lang }) {
         }
       >
         {/* kargul-style segmented pill tabs INSIDE the card */}
-        <div className="mb-5 -mx-1 px-1 overflow-x-auto scroll-thin">
+        <div className="mb-5">
           <SegmentedTabs<Cut>
             value={cut}
             onChange={setCut}
             options={[
-              { id: 'agr',    label: lang === 'fr' ? 'Inflation agrégée' : 'Inflasyon agregat' },
-              { id: 'ech',    label: lang === 'fr' ? 'Biens échangeables (115)' : 'Byen echanjab (115)' },
-              { id: 'nonEch', label: lang === 'fr' ? 'Non-échangeables (41)' : 'Non-echanjab (41)' },
+              { id: 'agr',    label: lang === 'fr' ? 'Inflation agrégée' : 'Inflasyon agregat',             shortLabel: lang === 'fr' ? 'Agrégée' : 'Agregat',       count: 156 },
+              { id: 'ech',    label: lang === 'fr' ? 'Biens échangeables (115)' : 'Byen echanjab (115)',    shortLabel: lang === 'fr' ? 'Échangeables' : 'Echanjab', count: 115 },
+              { id: 'nonEch', label: lang === 'fr' ? 'Non-échangeables (41)' : 'Non-echanjab (41)',         shortLabel: lang === 'fr' ? 'Non-éch.' : 'Non-ech.',     count: 41  },
             ]}
           />
         </div>

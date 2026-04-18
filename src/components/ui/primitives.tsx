@@ -167,22 +167,36 @@ export function BracketRange({
 }
 
 /** Segmented pill tabs (kargul — exact copy).
-    Pill container (rail bg), inner active tab = white card with soft shadow. */
+    Pill container (rail bg), inner active tab = white card with soft shadow.
+    Mobile: full-width equal grid with optional count sub-label. Desktop: inline whitespace-nowrap. */
 export function SegmentedTabs<T extends string>({
   value, options, onChange,
-}: { value: T; options: { id: T; label: string }[]; onChange: (v: T) => void }) {
+}: { value: T; options: { id: T; label: string; shortLabel?: string; count?: number }[]; onChange: (v: T) => void }) {
+  const cols = options.length;
   return (
-    <div className="inline-flex p-1 rounded-[10px] bg-rail">
-      {options.map((o) => (
-        <button
-          key={o.id}
-          onClick={() => onChange(o.id)}
-          className={`px-3 py-1.5 rounded-[8px] text-[12px] font-medium transition whitespace-nowrap
-            ${value === o.id ? 'bg-card shadow-pill text-ink' : 'text-ink-2 hover:text-ink'}`}
-        >
-          {o.label}
-        </button>
-      ))}
+    <div
+      className={`p-1 rounded-[10px] bg-rail grid sm:inline-flex`}
+      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+    >
+      {options.map((o) => {
+        const active = value === o.id;
+        return (
+          <button
+            key={o.id}
+            onClick={() => onChange(o.id)}
+            className={`px-3 py-2 sm:py-1.5 rounded-[8px] text-[12px] font-medium transition sm:whitespace-nowrap flex sm:inline flex-col items-center leading-tight
+              ${active ? 'bg-card shadow-pill text-ink' : 'text-ink-2 hover:text-ink'}`}
+          >
+            <span className="sm:hidden">{o.shortLabel ?? o.label}</span>
+            <span className="hidden sm:inline">{o.label}</span>
+            {o.count != null && (
+              <span className={`sm:hidden mt-0.5 text-[10.5px] font-normal tabular-nums ${active ? 'text-ink-2' : 'text-ink-3'}`}>
+                {o.count} cat.
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }

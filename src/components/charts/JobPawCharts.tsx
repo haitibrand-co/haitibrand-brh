@@ -17,8 +17,24 @@ export function JobPawAnnual({ height = 220 }: { height?: number }) {
           <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 4" vertical={false} />
           <XAxis dataKey="year" tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={10} axisLine={false} tickLine={false} />
           <YAxis tick={{ fontSize: 12, fill: "#64748B" }} tickMargin={6} axisLine={false} tickLine={false} width={32} />
-          {events.map(e => (
-            <ReferenceLine key={e.year} x={e.year} stroke="#DC2626" strokeDasharray="3 3" label={{ value: e.event, position: 'top', fontSize: 11, fill: '#DC2626' }} />
+          {events.map((e, idx) => (
+            <ReferenceLine
+              key={e.year}
+              x={e.year}
+              stroke="#DC2626"
+              strokeDasharray="3 3"
+              label={(props: any) => {
+                const { viewBox } = props;
+                const x = viewBox.x;
+                const y = viewBox.y - 4;
+                const row = idx % 2;
+                return (
+                  <text x={x} y={y} textAnchor="middle" fontSize={11} fill="#DC2626" fontWeight={500}>
+                    <tspan x={x} dy={row === 0 ? -6 : -20}>{e.event}</tspan>
+                  </text>
+                );
+              }}
+            />
           ))}
           <Area type="monotone" dataKey="offers" stroke="none" fill="url(#jpFade)" isAnimationActive={true} animationDuration={900} animationEasing="ease-out" />
           <Line type="monotone" dataKey="offers" stroke="#1D4ED8" strokeWidth={2} dot={{ r: 3, fill: '#1D4ED8' }} isAnimationActive={true} animationDuration={900} animationEasing="ease-out" name="Offres d'emploi" />
