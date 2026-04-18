@@ -1,6 +1,6 @@
 import type { Lang } from '../data/i18n';
 import { L, t } from '../data/i18n';
-import { Card, SigPill, RatioLabel, BracketRange } from '../components/ui/primitives';
+import { Card, SigPill, BracketRange } from '../components/ui/primitives';
 import { DivergenceChart, DivergenceLegend } from '../components/charts/DivergenceChart';
 import { IRFChart } from '../components/charts/IRFChart';
 import { irfTradable, irfNonTradable } from '../data/series';
@@ -21,7 +21,7 @@ export function VTradable({ lang }: { lang: Lang }) {
               <span className="text-[32px] font-medium tabular-nums text-blue-700">+5,59%</span>
               <span className="text-[12px] text-ink-2">pic à h=24 · t=1,97</span>
             </div>
-            <IRFChart data={irfTradable.political} tone="political" peak={5.59} peakH={24} height={140} />
+            <IRFChart data={irfTradable.political} tone="political" peakH={24} height={140} />
             <BracketRange lo={0.92} hi={10.26} mid={5.59} label="IC 90%" />
           </div>
         </Card>
@@ -33,7 +33,7 @@ export function VTradable({ lang }: { lang: Lang }) {
               <span className="text-[32px] font-medium tabular-nums text-blue-500">+2,84%</span>
               <span className="text-[12px] text-ink-2">pic à h=17 · t=1,90</span>
             </div>
-            <IRFChart data={irfNonTradable.political} tone="labor" peak={2.84} peakH={17} height={140} />
+            <IRFChart data={irfNonTradable.political} tone="labor" peakH={17} height={140} />
             <BracketRange lo={0.39} hi={5.29} mid={2.84} label="IC 90%" />
           </div>
         </Card>

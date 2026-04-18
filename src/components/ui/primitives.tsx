@@ -110,8 +110,8 @@ export function StatStrip({ items }: { items: { label: string; whole: string; fr
 
 /** Tick comb (Acme Stock availability) — tiny vertical ticks, fill % or categorical */
 export function TickComb({
-  count, activePct, tone = 'blue',
-}: { count: number; activePct: number; tone?: 'blue' }) {
+  count, activePct,
+}: { count: number; activePct: number }) {
   const active = Math.round((activePct / 100) * count);
   return (
     <div className="flex gap-[2px] items-end h-5">

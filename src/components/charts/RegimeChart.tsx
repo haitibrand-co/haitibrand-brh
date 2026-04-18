@@ -54,9 +54,9 @@ export function RegimeChart({ height = 340 }: { height?: number }) {
             <Line type="monotone" dataKey="ipcPost" stroke="#1D4ED8" strokeWidth={2.5} dot={false} isAnimationActive={true} animationDuration={900} animationEasing="ease-out" name="Post-2018" />
 
             {/* Projected endpoint */}
-            <ReferenceDot x={lastMonth.month} y={projectedEnd} r={5} fill="#fff" stroke="#64748B" strokeWidth={2} isFront label={{ value: `Projeté ${projectedEnd}`, position: 'right', fontSize: 12, fill: '#64748B', offset: 10 }} />
+            <ReferenceDot x={lastMonth.month} y={projectedEnd} r={5} fill="#fff" stroke="#64748B" strokeWidth={2} label={{ value: `Projeté ${projectedEnd}`, position: 'right', fontSize: 12, fill: '#64748B', offset: 10 }} />
             {/* Real endpoint */}
-            <ReferenceDot x={lastMonth.month} y={realEnd} r={6} fill="#1D4ED8" stroke="#fff" strokeWidth={2.5} isFront label={{ value: `Réel ${realEnd}`, position: 'right', fontSize: 13, fill: '#1D4ED8', fontWeight: 600, offset: 10 }} />
+            <ReferenceDot x={lastMonth.month} y={realEnd} r={6} fill="#1D4ED8" stroke="#fff" strokeWidth={2.5} label={{ value: `Réel ${realEnd}`, position: 'right', fontSize: 13, fill: '#1D4ED8', fontWeight: 600, offset: 10 }} />
 
             <Tooltip content={(p: any) => <DarkTooltip payload={(p.payload ?? []).filter((x:any) => x.dataKey === 'ipcPre' || x.dataKey === 'ipcPost' || x.dataKey === 'trendPre')} label={p.label} formatter={(v:number)=>v?.toFixed(1)} />} />
           </ComposedChart>

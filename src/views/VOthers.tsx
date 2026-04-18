@@ -1,6 +1,6 @@
 import type { Lang } from '../data/i18n';
 import { L, t } from '../data/i18n';
-import { Card, SigPill, RatioLabel, TickComb, StatCard, CheckBadge } from '../components/ui/primitives';
+import { Card, SigPill, TickComb, StatCard, CheckBadge } from '../components/ui/primitives';
 import { KernelRidges } from '../components/charts/KernelRidges';
 import { JobPawAnnual, StackedSectoralBar, HBarBreakdown, jobpawDomains } from '../components/charts/JobPawCharts';
 import { RegimeChart } from '../components/charts/RegimeChart';
@@ -8,7 +8,7 @@ import { ipcDistribution, politicalShocks, descriptive, paper, irfPeaks } from '
 import { irfAggregate, irfTradable, irfNonTradable } from '../data/series';
 
 /** Smooth inline IRF sparkline — blue line + light-blue gradient fill, cubic-smoothed path. */
-function Sparkline({ data }: { data: { beta: number }[]; tone?: 'primary' | 'muted' }) {
+function Sparkline({ data }: { data: { beta: number }[] }) {
   const w = 160, h = 48, pad = 2;
   const maxY = Math.max(...data.map(d => d.beta), 0.1);
   const minY = Math.min(...data.map(d => d.beta), 0);
@@ -494,7 +494,7 @@ export function VPolitical({ lang }: { lang: Lang }) {
                   {/* Trajectory sparkline */}
                   <div className="mt-4">
                     <div className="text-[11.5px] text-ink-2 uppercase tracking-[0.06em] mb-1.5">Trajectoire 0–24 mois</div>
-                    <Sparkline data={row.series} tone="primary" />
+                    <Sparkline data={row.series} />
                   </div>
                 </div>
                 <div className="px-5 pb-4 flex justify-end">
@@ -540,7 +540,7 @@ export function VFiscal({ lang }: { lang: Lang }) {
                   <div className="text-[13.5px] text-ink-2 mt-3">h = {r.horizon} · t = {r.t.toFixed(2)}</div>
                   <div className="mt-4">
                     <div className="text-[11.5px] text-ink-2 uppercase tracking-[0.06em] mb-1.5">Trajectoire 0–24 mois</div>
-                    <Sparkline data={row.series} tone="muted" />
+                    <Sparkline data={row.series} />
                   </div>
                 </div>
                 <div className="px-5 pb-4 flex justify-end">

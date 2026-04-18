@@ -1,4 +1,4 @@
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ReferenceDot, Area, ComposedChart } from 'recharts';
+import { ResponsiveContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ReferenceDot, Area, ComposedChart } from 'recharts';
 import { DarkTooltip } from '../ui/primitives';
 
 type IRFPoint = { h: number; beta: number; lo: number; hi: number };
@@ -9,10 +9,10 @@ const TONES = {
   labor:     { line: '#93C5FD', fill: 'rgba(147,197,253,0.25)', tip: '#93C5FD' },
 };
 
-export function IRFChart({ data, tone, peak, peakH, currentH, height = 180 }: {
+export function IRFChart({ data, tone, peakH, currentH, height = 180 }: {
   data: IRFPoint[];
   tone: keyof typeof TONES;
-  peak: number;
+  
   peakH: number;
   currentH?: number;
   height?: number;
@@ -49,7 +49,7 @@ export function IRFChart({ data, tone, peak, peakH, currentH, height = 180 }: {
                 fill="#fff"
                 stroke={t.line}
                 strokeWidth={2.5}
-                isFront
+               
               />
             </>
           )}

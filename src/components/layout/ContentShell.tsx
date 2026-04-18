@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { paper } from '../../data/paper';
 import type { Lang } from '../../data/i18n';
 import { L, t } from '../../data/i18n';

@@ -70,7 +70,7 @@ export function VHierarchy({ lang }: { lang: Lang }) {
               <span className="text-[12px] font-medium">Choc politique</span>
               <SigPill level={pk.sig.p} />
             </div>
-            <IRFChart data={cutData.political} tone="political" peak={pk.p} peakH={pk.ph} currentH={h} />
+            <IRFChart data={cutData.political} tone="political" peakH={pk.ph} currentH={h} />
             <BracketRange lo={+(pk.p - 1.645 * (pk.p > 4 ? 2.84 : pk.p > 3 ? 2.54 : 1.49)).toFixed(2)} hi={+(pk.p + 1.645 * (pk.p > 4 ? 2.84 : pk.p > 3 ? 2.54 : 1.49)).toFixed(2)} mid={pk.p} label={`IC 90% à h=${pk.ph}`} />
             <div className="mt-3 flex items-center justify-between text-[12px]">
               <span className="text-ink-2">Valeur à h={h}</span>
@@ -83,7 +83,7 @@ export function VHierarchy({ lang }: { lang: Lang }) {
               <span className="text-[12px] font-medium">Choc fiscal</span>
               <SigPill level={pk.sig.f} />
             </div>
-            <IRFChart data={cutData.fiscal} tone="fiscal" peak={pk.f} peakH={pk.fh} currentH={h} />
+            <IRFChart data={cutData.fiscal} tone="fiscal" peakH={pk.fh} currentH={h} />
             <BracketRange lo={+(pk.f - 1.645 * 1.39).toFixed(2)} hi={+(pk.f + 1.645 * 1.39).toFixed(2)} mid={pk.f} label={`IC 90% à h=${pk.fh}`} />
             <div className="mt-3 flex items-center justify-between text-[12px]">
               <span className="text-ink-2">Valeur à h={h}</span>
@@ -96,7 +96,7 @@ export function VHierarchy({ lang }: { lang: Lang }) {
               <span className="text-[12px] font-medium">Marché du travail</span>
               <SigPill level={pk.sig.l} />
             </div>
-            <IRFChart data={cutData.labor} tone="labor" peak={pk.l} peakH={pk.lh} currentH={h} />
+            <IRFChart data={cutData.labor} tone="labor" peakH={pk.lh} currentH={h} />
             <BracketRange lo={+(pk.l - 1.645 * 1.07).toFixed(2)} hi={+(pk.l + 1.645 * 1.07).toFixed(2)} mid={pk.l} label={`IC 90% à h=${pk.lh}`} />
             <div className="mt-3 flex items-center justify-between text-[12px]">
               <span className="text-ink-2">Valeur à h={h}</span>

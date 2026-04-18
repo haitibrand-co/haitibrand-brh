@@ -46,7 +46,7 @@ function App() {
   const q = t.questions.find((x) => x.id === active) ?? t.questions[0];
   const label = lang === 'fr' ? q.fr : q.ht;
 
-  const views: Record<string, (props: { lang: Lang }) => JSX.Element> = {
+  const views: Record<string, (props: { lang: Lang }) => React.ReactElement> = {
     hero: VHero, rupture: VRupture, distribution: VDistribution,
     hierarchy: VHierarchy, political: VPolitical, fiscal: VFiscal,
     tradable: VTradable, labor: VLabor, model: VModel,
